@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 11:46:14 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:12:00 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,23 @@ void	handle_echo(char *input)
 		printf("\n");
 }
 
-void	builtin_check(char *input)
+void	handle_env(char **env)
 {
-	input = handle_space(input);
-	if (!strncmp(input, "exit", 4) && (strlen(input) == 4))
+	int	i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		printf("%s\n", env[i]);
+		i++;
+	}
+}
+
+void	builtin_check(char *input, char **env)
+{
+	if (!strncmp(input, "env", 4))
+		handle_env(env);
+	else if (!strncmp(input, "exit", 4) && (strlen(input) == 4))
 	{
 		printf("exit\n");
 		exit(0);
@@ -114,24 +127,36 @@ void	builtin_check(char *input)
 		printf("Command not found: %s\n", input);
 }
 
-void	handle_input(char *input)
+void	handle_input(char *input, char **env)
 {
 	if (strlen(input) == 0)
 		return ;
-	builtin_check(input);
+	builtin_check(input, env);
 
 }
 
-int main(void)
+int main(int argc, char **argv, char **env)
 {
 	char	*prompt;
 	char	*input;
+	t_tok   *token;
+	t_lexer	lexer;
 
+
+
+	argv = NULL;
+	if (argc > 1)
+		return (printf("Error: too many arguments\n"), 1);
 	prompt = set_prompt("balkanshell$ ");
 	while (1)
 	{
 		input = readline(prompt);
-		handle_input(input);
+		init_lexer(&lexer, input);
+		// handle_input(input, env);
+		while ((token = lexer_get_next_token(&lexer)) != NULL)
+		{
+			printf("Token: %s\n", token->value);
+		}
 	}
 	free(prompt);
 }

@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:01:22 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 10:37:40 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:39:24 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <unistd.h>
+#include "lexer.h"
 
 #endif
