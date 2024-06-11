@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 13:24:33 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:45:07 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,15 @@ int main(void)
 	char	*prompt;
 	char	*input;
 
+	signal_setup();
 	prompt = set_prompt("balkanshell$ ");
 	while (1)
 	{
 		input = readline(prompt);
+		if (input == NULL)
+			break ;
 		handle_input(input);
+		free(input);
 	}
 	free(prompt);
 }

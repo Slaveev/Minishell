@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 10:01:22 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 15:44:16 by jsamardz         ###   ########.fr       */
+/*   Created: 2024/06/11 15:23:19 by jsamardz          #+#    #+#             */
+/*   Updated: 2024/06/11 15:43:09 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "minishell.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
-#include <signal.h>
+// signal hander for CTRL + C
+void	signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
 
-//signals
-void	signal_setup();
-
-#endif
+void	signal_setup()
+{
+	struct	sigaction sa;
+	
+	memset(&sa, 0, sizeof(sa));
+	sa.sa_handler = signal_handler;
+	sigaction(SIGINT, &sa, NULL);
+}
