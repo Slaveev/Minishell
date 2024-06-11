@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 11:46:14 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/11 13:24:33 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	handle_echo(char *input)
 
 void	builtin_check(char *input)
 {
-	input = handle_space(input);
+	// input = handle_space(input); 
 	if (!strncmp(input, "exit", 4) && (strlen(input) == 4))
 	{
 		printf("exit\n");
