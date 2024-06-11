@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 16:12:00 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/11 18:41:03 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ int main(int argc, char **argv, char **env)
 	{
 		input = readline(prompt);
 		init_lexer(&lexer, input);
-		// handle_input(input, env);
+		handle_input(input, env);
 		while ((token = lexer_get_next_token(&lexer)) != NULL)
 		{
 			printf("Token: %s\n", token->value);
