@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 18:41:03 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:27:02 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,36 @@ void	builtin_check(char *input, char **env)
 		printf("Command not found: %s\n", input);
 }
 
+void	run_cmd(char *input, char **env)
+{
+
+}
+
 void	handle_input(char *input, char **env)
 {
 	if (strlen(input) == 0)
 		return ;
 	builtin_check(input, env);
+	run_cmd(input, env);
+}
 
+void	parse_command(t_lexer *lexer)
+{
+	t_tok	*token;
+
+	token = lexer_get_next_token(lexer);
+	if (token->type == TOKEN_WORD)
+	{
+		printf("Command: %s\n", token->value);
+	}
+	else
+	{
+		printf("Error: expected command\n");
+	}
+	while ((token = lexer_get_next_token(lexer)) != NULL)
+	{
+		char	*argument = token->value;
+	}
 }
 
 int main(int argc, char **argv, char **env)
@@ -152,11 +176,52 @@ int main(int argc, char **argv, char **env)
 	{
 		input = readline(prompt);
 		init_lexer(&lexer, input);
-		handle_input(input, env);
+		// parse_command(&lexer);
+		// handle_input(input, env);
 		while ((token = lexer_get_next_token(&lexer)) != NULL)
 		{
-			printf("Token: %s\n", token->value);
+			printf("Token value: %s\n", token->value);
+			destroy_token(token);
 		}
 	}
 	free(prompt);
 }
+
+// need two global var
+// nextToken
+// resultTree
+// how it should work
+
+// 1 scanToken()
+// 2 resultTree = parseE()
+// 3 if nextToken != EOF
+// 4 error()
+// 5 printTree(resultTree)
+
+
+// make while loop to first check if its a builtin
+	// if it is execute builtin
+// else its not a builtin so we need to fork and run the command
+	// exec the command
+
+
+// parseexec - redir { aaa redir }+
+// parseredirs - { > < >> aaa}
+// pipe - exec [| pipe]
+// parseline - pipe {&} [; line]
+// block - (line) redir
+
+// pipe -> exec
+// pipe -> exec | pipe
+
+// aaa || (bbb | (ccc | ddd))
+			// pipe
+		  //    |
+		// exec	  pipe
+		//  aaa    |
+	//       exec     pipe
+	//       bbb       |
+	//  		  exec     pipe
+			//	  ccc       |
+						// exec
+						// ddd

@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 18:44:04 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:18:17 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,19 @@ t_tok	*lexer_dash(t_lexer *lexer)
 	return (token);
 }
 
-// lex_string: This function lexes a string from the input string.
+t_tok	*lexer_token_name(t_lexer *lexer)
+{
+	int 	start_pos;
+	char	*word;
+	t_tok	*token;
+
+	start_pos = lexer->pos;
+	while (lexer->cur_char != CHAR_SPACE && lexer->cur_char != '\0')
+		lexer_advance(lexer);
+	word = strndup(lexer->input + start_pos, lexer->pos - start_pos);
+	token = create_token(word, lexer->token_count);
+	return (token);
+}
 
 // next_token: This function returns the next token from the input string.
 // It uses the other lexing functions to recognize the type of the next token and lex it.
@@ -261,6 +273,11 @@ t_tok	*lexer_get_next_token(t_lexer *lexer)
 		else if (is_with_dash(lexer->cur_char, lexer->input[lexer->pos + 1]))
 		{
 			token = lexer_dash(lexer);
+			return (token);
+		}
+		else if (lexer->cur_char != CHAR_SPACE)
+		{
+			token = lexer_token_name(lexer);
 			return (token);
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 14:45:42 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/11 19:20:20 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ enum token_types{
 	CHAR_AMPERSAND = '&',
 	CHAR_UNDESCP = '`',
 	CHAR_BRACKET_O = '(',
-	CHAR_BRACKET_C = ')'
+	CHAR_BRACKET_C = ')',
+	TOKEN_WORD
 };
 
 enum state {
@@ -59,10 +60,8 @@ int	is_string_identify(char c);
 void	lexer_advance(t_lexer *lexer);
 void	lexer_skip_whitespace(t_lexer *lexer);
 t_tok	*lexer_get_next_token(t_lexer *lexer);
-t_tok	*lexer_collect_string(t_lexer *lexer);
 t_tok	*lexer_number(t_lexer *lexer);
 t_tok	*lexer_identifier(t_lexer *lexer);
-char	peek(t_lexer *lexer, int offset);
 int	is_pipe(char c);
 t_tok	*lexer_pipe(t_lexer *lexer);
 int	is_quote(char c);
@@ -71,5 +70,6 @@ int is_double_quote(char c);
 t_tok	*lexer_double_quote(t_lexer *lexer);
 int	is_redirection(char c);
 t_tok	*lexer_redirection(t_lexer *lexer);
+void	destroy_token(t_tok *token);
 
 #endif
