@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/13 13:25:16 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:30:06 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	parse_command(t_parser *parser)
 	{
 		if (parser->current_token->type == WORD && command)
 		{
-			printf("Command: %s\n", parser->current_token->value);
 			handle_command(parser->current_token->value, args, parser, &i);
 			command = 0;
 		}
