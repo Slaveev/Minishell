@@ -1,34 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   O                                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/13 12:20:04 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/12 14:39:56 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-
-char	*strip_quotes(char *str)
-{
-	int	i;
-
-	i = strlen(str);
-	if (str[0] == '"' && str[i - 1] == '"')
-	{
-		str[i - 1] = '\0';
-		return (str + 1);
-	}
-	else if (str[0] == '\'' && str[i - 1] == '\'')
-	{
-		str[i - 1] = '\0';
-		return (str + 1);
-	}
-	return (str);
-}
+#include "minishell.h"
 
 int	get_token_type(char *value)
 {
@@ -278,21 +260,6 @@ t_tok	*lexer_get_next_token(t_lexer *lexer)
 			lexer_advance(lexer);
 			return (token);
 		}
-		else if (lexer->cur_char == '(')
-		{
-			int start_pos;
-			char *ident;
-			t_tok *token;
-
-			lexer_advance(lexer);
-			start_pos = lexer->pos;
-			while (lexer->cur_char != ')' && lexer->cur_char != '\0')
-				lexer_advance(lexer);
-			ident = strndup(lexer->input + start_pos, lexer->pos - start_pos);
-			token = create_token(ident, COMMAND_GROUP);
-			lexer_advance(lexer);
-			return (token);
-		}
 		else if (lexer->cur_char == CHAR_QUOTE)
 		{
 			int		start_pos;
@@ -304,8 +271,7 @@ t_tok	*lexer_get_next_token(t_lexer *lexer)
 			while (lexer->cur_char != CHAR_QUOTE && lexer->cur_char != '\0')
 				lexer_advance(lexer);
 			ident = strndup(lexer->input + start_pos, lexer->pos - start_pos);
-			ident = strip_quotes(ident);
-			token = create_token(ident, COMMAND_GROUP);
+			token = create_token(ident, CHAR_QUOTE);
 			lexer_advance(lexer);
 			return (token);
 		}
@@ -320,8 +286,7 @@ t_tok	*lexer_get_next_token(t_lexer *lexer)
 			while (lexer->cur_char != CHAR_DOUBLE_QUOTE && lexer->cur_char != '\0')
 				lexer_advance(lexer);
 			ident = strndup(lexer->input + start_pos, lexer->pos - start_pos);
-			ident = strip_quotes(ident);
-			token = create_token(ident, COMMAND_GROUP);
+			token = create_token(ident, CHAR_DOUBLE_QUOTE);
 			lexer_advance(lexer);
 			return (token);
 		}
@@ -338,6 +303,21 @@ t_tok	*lexer_get_next_token(t_lexer *lexer)
 		else if (lexer->cur_char != CHAR_SPACE)
 		{
 			token = lexer_token_name(lexer);
+			return (token);
+		}
+		else if (lexer->cur_char == '(')
+		{
+			int start_pos;
+			char *ident;
+			t_tok *token;
+
+			lexer_advance(lexer);
+			start_pos = lexer->pos;
+			while (lexer->cur_char != ')' && lexer->cur_char != '\0')
+				lexer_advance(lexer);
+			ident = strndup(lexer->input + start_pos, lexer->pos - start_pos);
+			token = create_token(ident, CHAR_BRACKET_O);
+			lexer_advance(lexer);
 			return (token);
 		}
 		else

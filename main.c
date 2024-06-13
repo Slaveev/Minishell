@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/12 11:27:02 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:54:29 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,23 @@ void	handle_echo(char *input)
 	int		new_line;
 
 	new_line = 1;
-	str = input + 5;
+	str = input + 4;
 	while (*str == ' ' || *str == '\t')
 		str++;
 	if (!strncmp(str, "-n", 2))
 	{
 		new_line = 0;
 		str += 2;
+		while (*str == ' ' || *str == '\t')
+			str++;
 	}
-	while (*str == ' ' || *str == '\t')
-		str++;
+	// printf("%s\n", input);
+	// printf("str = '%s\n'", str);
 	printf("%s", str);
 	if (new_line)
 		printf("\n");
+	else
+		printf("\r");
 }
 
 void	handle_env(char **env)
@@ -106,7 +110,7 @@ void	handle_env(char **env)
 	}
 }
 
-void	builtin_check(char *input, char **env)
+void	builtin_exec(char *input, char **env)
 {
 	if (!strncmp(input, "env", 4))
 		handle_env(env);
@@ -115,9 +119,9 @@ void	builtin_check(char *input, char **env)
 		printf("exit\n");
 		exit(0);
 	}
-	else if (!strncmp(input, "echo ", 5))
+	else if (!strncmp(input, "echo", 4))
 		handle_echo(input);
-	else if (!strncmp(input, "pwd", 3) && (strlen(input) == 3))
+	else if (!strncmp(input, "pwd", 3) && strlen(input) == 3)
 		handle_pwd();
 	else if (!strncmp(input, "cd", 2) && (input[2] == ' ' || input[2] == '\0'))
 		handle_cd(input);
@@ -127,47 +131,47 @@ void	builtin_check(char *input, char **env)
 		printf("Command not found: %s\n", input);
 }
 
-void	run_cmd(char *input, char **env)
+// void	handle_input(char *input, char **env)
+// {
+// 	if (strlen(input) == 0)
+// 		return ;
+// 	builtin_exec(input, env);
+// 	// run_cmd(input, env);
+// }
+
+void	execute_command(char *command, char **args)
 {
+	pid_t	pid;
+	int		status;
 
-}
-
-void	handle_input(char *input, char **env)
-{
-	if (strlen(input) == 0)
-		return ;
-	builtin_check(input, env);
-	run_cmd(input, env);
-}
-
-void	parse_command(t_lexer *lexer)
-{
-	t_tok	*token;
-
-	token = lexer_get_next_token(lexer);
-	if (token->type == TOKEN_WORD)
+	pid = fork();
+	if (pid == 0)
 	{
-		printf("Command: %s\n", token->value);
+		if (execvp(command, args) == -1)
+			perror("balkanshell");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid < 0)
+	{
+		perror("balkanshell");
 	}
 	else
 	{
-		printf("Error: expected command\n");
-	}
-	while ((token = lexer_get_next_token(lexer)) != NULL)
-	{
-		char	*argument = token->value;
+		do
+		{
+			waitpid(pid, &status, WUNTRACED);
+		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 }
 
 int main(int argc, char **argv, char **env)
 {
-	char	*prompt;
-	char	*input;
-	t_tok   *token;
-	t_lexer	lexer;
+	char		*prompt;
+	char		*input;
+	t_lexer		lexer;
+	t_parser	*parser;
 
-
-
+	env = NULL;
 	argv = NULL;
 	if (argc > 1)
 		return (printf("Error: too many arguments\n"), 1);
@@ -176,17 +180,11 @@ int main(int argc, char **argv, char **env)
 	{
 		input = readline(prompt);
 		init_lexer(&lexer, input);
-		// parse_command(&lexer);
-		// handle_input(input, env);
-		while ((token = lexer_get_next_token(&lexer)) != NULL)
-		{
-			printf("Token value: %s\n", token->value);
-			destroy_token(token);
-		}
+		parser = init_parser(&lexer);
+		parse(parser);
 	}
 	free(prompt);
 }
-
 // need two global var
 // nextToken
 // resultTree
@@ -225,3 +223,9 @@ int main(int argc, char **argv, char **env)
 			//	  ccc       |
 						// exec
 						// ddd
+
+
+
+// first one should be a command
+// after the first one should be an argument
+// if its a pipe then we are expecting a command

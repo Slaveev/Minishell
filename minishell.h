@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:01:22 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/12 10:06:04 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:51:15 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <readline/history.h>
 #include <unistd.h>
 #include "lexer.h"
+#include "parser.h"
 
 # define MAXARGS 10
 
@@ -36,6 +37,8 @@ struct s_cmd
 	enum cmd_types	type;
 	char			*cmd;
 	char			**args;
+	struct s_cmd	*left;
+	struct s_cmd	*right;
 }					t_cmd;
 
 struct exec_cmd
@@ -48,21 +51,21 @@ struct exec_cmd
 struct pipe_cmd
 {
 	enum cmd_types type;
-	struct cmd *left;
-	struct cmd *right;
+	struct s_cmd *left;
+	struct s_cmd *right;
 };
 
 struct list_cmd
 {
 	enum cmd_types type;
-	struct cmd *left;
-	struct cmd *right;
+	struct s_cmd *left;
+	struct s_cmd *right;
 };
 
 struct redir_cmd
 {
 	enum cmd_types type;
-	struct cmd *cmd;
+	struct s_cmd *cmd;
 	char *start_f;
 	char *end_f;
 	int mode;
@@ -72,11 +75,19 @@ struct redir_cmd
 struct back_cmd
 {
 	enum cmd_types type;
-	struct cmd *cmd;
+	struct s_cmd *cmd;
 };
+
+typedef struct s_arg
+{
+	char			*value;
+	struct s_arg	*next;
+} 					t_arg;
 
 #endif
 
+void	execute_command(char *command, char **args);
+void	builtin_exec(char *input, char **env);
 
 // parsecmd
 //	parsepipe

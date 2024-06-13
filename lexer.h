@@ -6,14 +6,16 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/11 19:20:20 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:29:47 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-#include "minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 enum token_types{
 	CHAR_LESS = '<',
@@ -29,7 +31,11 @@ enum token_types{
 	CHAR_UNDESCP = '`',
 	CHAR_BRACKET_O = '(',
 	CHAR_BRACKET_C = ')',
-	TOKEN_WORD
+	WORD,
+	NUMBER,
+	COMMAND_GROUP,
+	ARGUMENT,
+	COMMAND
 };
 
 enum state {
@@ -42,6 +48,7 @@ typedef struct s_tok
 {
 	char	*value;
 	int		type;
+	int		count;
 }			t_tok;
 
 typedef struct s_lexer
@@ -54,6 +61,7 @@ typedef struct s_lexer
 	enum state	cur_state;
 }				t_lexer;
 
+char	*strip_quotes(char *str);
 void	init_lexer(t_lexer *lexer, char *input);
 t_tok	*create_token(char *value, int type);
 int	is_string_identify(char c);
