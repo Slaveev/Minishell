@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/dslaveev/shellbratko/intra-uuid-fef9ef04-29c3-4a67-999d-0e2c9f4ac679-5722204-dslaveev/",
+      "program": "/Users/dslaveev/shellbratko/intra-uuid-fef9ef04-29c3-4a67-999d-0e2c9f4ac679-5722204-dslaveev/minishell"
+    }
+  ]
+}

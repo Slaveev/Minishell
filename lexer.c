@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/13 13:49:39 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:26:58 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,69 +255,128 @@ t_tok	*process_token(t_lexer *lexer, char end_char, int token_type, int quotes)
 	return (token);
 }
 
+
+// -----------------------------------------------------------------------------
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// -----------------------------------------------------------------------------
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// -----------------------------------------------------------------------------
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+// -----------------------------------------------------------------------------
+
 // next_token: This function returns the next token from the input string.
 // It uses the other lexing functions to recognize the type of the next token and lex it.
-t_tok	*lexer_get_next_token(t_lexer *lexer)
+t_tok *lexer_get_next_token(t_lexer *lexer)
 {
-	t_tok	*token;
+	t_tok *token = NULL;
 
-	token = NULL;
 	while (lexer->cur_char != '\0')
 	{
-		if (lexer->cur_char == CHAR_SPACE)
-			lexer_advance(lexer);
-		else if (lexer->cur_char == CHAR_LESS)
+		switch (lexer->cur_char)
 		{
-			token = create_token("CHAR_LESS", CHAR_LESS);
-			lexer_advance(lexer);
-			return (token);
-		}
-		else if (lexer->cur_char == CHAR_MORE)
-		{
-			if (lexer->input[lexer->pos + 1] == CHAR_MORE)
-			{
-				token = create_token("CHAR_DOUBLE_MORE", CHAR_MORE);
+			case CHAR_SPACE:
 				lexer_advance(lexer);
+				break;
+			case CHAR_LESS:
+				token = create_token("CHAR_LESS", CHAR_LESS);
+				lexer_advance(lexer);
+				return (token);
+			case CHAR_MORE:
+				if (lexer->input[lexer->pos + 1] == CHAR_MORE)
+				{
+					token = create_token("CHAR_DOUBLE_MORE", CHAR_MORE);
+					lexer_advance(lexer);
+				}
+				else
+					token = create_token("CHAR_MORE", CHAR_MORE);
+				lexer_advance(lexer);
+				return (token);
+			case CHAR_PIPE:
+				return ((token = lexer_pipe(lexer), token));
+			case '(':
+				return process_token(lexer, '(', COMMAND_GROUP, 0);
+			case CHAR_QUOTE:
+				return process_token(lexer, CHAR_QUOTE, COMMAND_GROUP, 1);
+			case CHAR_DOUBLE_QUOTE:
+				return process_token(lexer, CHAR_DOUBLE_QUOTE, COMMAND_GROUP, 1);
+			default:
+				if (is_string_identify(lexer->cur_char))
+					return ((token = lexer_identifier(lexer)), token);
+				else if (is_with_dash(lexer->cur_char, lexer->input[lexer->pos + 1]))
+					return ((token = lexer_dash(lexer)), token);
+				else if (lexer->cur_char != CHAR_SPACE)
+					return ((token = lexer_token_name(lexer)), token);
+				else
+					lexer_advance(lexer);
+				break;
 			}
-			else
-				token = create_token("CHAR_MORE", CHAR_MORE);
-			lexer_advance(lexer);
-			return (token);
-		}
-		else if (lexer->cur_char == CHAR_PIPE)
-		{
-			token = create_token("CHAR_PIPE", CHAR_PIPE);
-			lexer_advance(lexer);
-			return (token);
-		}
-		else if (lexer->cur_char == '(')
-			return (process_token(lexer, '(', COMMAND_GROUP, 0));
-		else if (lexer->cur_char == CHAR_QUOTE)
-			return (process_token(lexer, CHAR_QUOTE, COMMAND_GROUP, 1));
-		else if (lexer->cur_char == CHAR_DOUBLE_QUOTE)
-			return (process_token(lexer, CHAR_DOUBLE_QUOTE, COMMAND_GROUP, 1));
-		else if (is_string_identify(lexer->cur_char))
-		{
-			token = lexer_identifier(lexer);
-			return (token);
-		}
-		else if (is_with_dash(lexer->cur_char, lexer->input[lexer->pos + 1]))
-		{
-			token = lexer_dash(lexer);
-			return (token);
-		}
-		else if (lexer->cur_char != CHAR_SPACE)
-		{
-			token = lexer_token_name(lexer);
-			return (token);
-		}
-		else
-		{
-			lexer_advance(lexer);
-			continue;
-		}
 	}
-	return (0);
+	return (NULL);
 }
+
+// if somethings wrong with tokens us this
+
+// t_tok	*lexer_get_next_token(t_lexer *lexer)
+// {
+// 	t_tok	*token;
+
+// 	token = NULL;
+// 	while (lexer->cur_char != '\0')
+// 	{
+// 		if (lexer->cur_char == CHAR_SPACE)
+// 			lexer_advance(lexer);
+// 		else if (lexer->cur_char == CHAR_LESS)
+// 		{
+// 			token = create_token("CHAR_LESS", CHAR_LESS);
+// 			lexer_advance(lexer);
+// 			return (token);
+// 		}
+// 		else if (lexer->cur_char == CHAR_MORE)
+// 		{
+// 			if (lexer->input[lexer->pos + 1] == CHAR_MORE)
+// 			{
+// 				token = create_token("CHAR_DOUBLE_MORE", CHAR_MORE);
+// 				lexer_advance(lexer);
+// 			}
+// 			else
+// 				token = create_token("CHAR_MORE", CHAR_MORE);
+// 			lexer_advance(lexer);
+// 			return (token);
+// 		}
+// 		else if (lexer->cur_char == CHAR_PIPE)
+// 		{
+// 			token = create_token("CHAR_PIPE", CHAR_PIPE);
+// 			lexer_advance(lexer);
+// 			return (token);
+// 		}
+// 		else if (lexer->cur_char == '(')
+// 			return (process_token(lexer, '(', COMMAND_GROUP, 0));
+// 		else if (lexer->cur_char == CHAR_QUOTE)
+// 			return (process_token(lexer, CHAR_QUOTE, COMMAND_GROUP, 1));
+// 		else if (lexer->cur_char == CHAR_DOUBLE_QUOTE)
+// 			return (process_token(lexer, CHAR_DOUBLE_QUOTE, COMMAND_GROUP, 1));
+// 		else if (is_string_identify(lexer->cur_char))
+// 		{
+// 			token = lexer_identifier(lexer);
+// 			return (token);
+// 		}
+// 		else if (is_with_dash(lexer->cur_char, lexer->input[lexer->pos + 1]))
+// 		{
+// 			token = lexer_dash(lexer);
+// 			return (token);
+// 		}
+// 		else if (lexer->cur_char != CHAR_SPACE)
+// 		{
+// 			token = lexer_token_name(lexer);
+// 			return (token);
+// 		}
+// 		else
+// 		{
+// 			lexer_advance(lexer);
+// 			continue;
+// 		}
+// 	}
+// 	return (0);
+// }
 
 // << < > >> | ' '

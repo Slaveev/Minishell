@@ -6,14 +6,14 @@
 #    By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/11 13:38:52 by jsamardz          #+#    #+#              #
-#    Updated: 2024/06/13 11:08:13 by dslaveev         ###   ########.fr        #
+#    Updated: 2024/06/14 12:35:55 by dslaveev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
-SRC = main.c lexer.c parser.c
+CFLAGS = -Wall -Werror -Wextra -g
+SRC = main.c lexer.c parser.c builtin.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

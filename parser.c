@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/13 13:30:06 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/14 13:17:11 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,24 +35,55 @@ int	is_builtin(char *command)
 	int		i;
 	int		num_builtins;
 
+	if (command == NULL)
+		return (0);
 	i = 0;
 	num_builtins = sizeof(builtins) / sizeof(char *);
 	while (i < num_builtins)
 	{
-		if (!strcmp(command, builtins[i]))
+		if (strcmp(command, builtins[i]) == 0)
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
+// trying to group together builtin commands before the pipe
+// STILL IN PROGRESS
+char	**group_together(t_parser *parser)
+{
+	char	**grouped;
+	int		i;
+
+	i = 0;
+	grouped = malloc(sizeof(char *) * 1024);
+	if (grouped == NULL)
+		return (NULL);
+	while (parser->current_token != NULL
+		&& parser->current_token->type != CHAR_PIPE)
+	{
+		grouped[i++] = parser->current_token->value;
+		parser_advance(parser);
+	}
+	grouped[i] = NULL;
+	return (grouped);
+}
+
 void	handle_command(char *command, char **args, t_parser *parser, int *i)
 {
-	args[(*i)++] = command;
+	char	**grouped;
+	char	**env;
+
+	env = NULL;
 	if (is_builtin(command))
 	{
-		args[*i] = NULL;
-		builtin_exec(parser->lexer->input, args);
+		grouped = group_together(parser);
+		builtin_exec(grouped, env);
+		free(grouped);
+	}
+	else
+	{
+		args[(*i)++] = command;
 	}
 }
 
@@ -60,6 +91,16 @@ void	handle_argument(char *arg, char **args, int *i)
 {
 	args[(*i)++] = arg;
 }
+
+// int	reset_command(t_parser *parser, int command)
+// {
+// 	command = 0;
+// 	if (parser->current_token->type == CHAR_PIPE)
+// 	{
+// 		command = 1;
+// 	}
+// 	return (command);
+// }
 
 void	parse_command(t_parser *parser)
 {
@@ -73,20 +114,20 @@ void	parse_command(t_parser *parser)
 	{
 		if (parser->current_token->type == WORD && command)
 		{
+			printf("Command: %s\n", parser->current_token->value);
 			handle_command(parser->current_token->value, args, parser, &i);
 			command = 0;
 		}
 		else if (!command)
-			handle_argument(parser->current_token->value, args, &i);
-		if (parser->current_token->type == CHAR_PIPE)
 		{
-			printf("Pipe\n");
-			command = 1;
+			handle_argument(parser->current_token->value, args, &i);
+			printf("argument: %s\n", parser->current_token->value);
 		}
 		parser_advance(parser);
 	}
 	args[i] = NULL;
 	execute_command(args[0], args);
+	printf("ok\n");
 }
 
 void	parse(t_parser *parser)
