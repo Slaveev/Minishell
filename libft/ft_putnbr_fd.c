@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 11:35:59 by dslaveev         ###   ########.fr       */
+/*   Created: 2024/03/07 11:07:36 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/03/09 16:12:27 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "minishell.h"
-
-typedef struct s_parser
+/// @brief prints numbers
+/// @param n
+/// @param fd
+void	ft_putnbr_fd(int n, int fd)
 {
-	t_lexer	*lexer;
-	t_tok	*current_token;
-}			t_parser;
-
-void		parse(t_parser *parser, char **env);
-void		parse_command(t_parser *parser, char **env);
-void		parser_advance(t_parser *parser);
-t_parser	*init_parser(t_lexer *lexer);
-int			is_builtin(char *command);
-
-#endif
+	if (n == -2147483648)
+	{
+		write(fd, "-2147483648", 11);
+	}
+	else if (n < 0)
+	{
+		ft_putchar_fd('-', fd);
+		n = -n;
+		ft_putnbr_fd(n, fd);
+	}
+	else
+	{
+		if (n > 9)
+		{
+			ft_putnbr_fd(n / 10, fd);
+			ft_putnbr_fd(n % 10, fd);
+		}
+		else
+			ft_putchar_fd(n + 48, fd);
+	}
+}

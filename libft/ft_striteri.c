@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 11:35:59 by dslaveev         ###   ########.fr       */
+/*   Created: 2024/03/07 10:22:52 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/03/09 16:20:43 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "minishell.h"
-
-typedef struct s_parser
+/// @brief applies function to each character or integer
+/// @param s
+/// @param f
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	t_lexer	*lexer;
-	t_tok	*current_token;
-}			t_parser;
+	size_t	index;
 
-void		parse(t_parser *parser, char **env);
-void		parse_command(t_parser *parser, char **env);
-void		parser_advance(t_parser *parser);
-t_parser	*init_parser(t_lexer *lexer);
-int			is_builtin(char *command);
-
-#endif
+	index = 0;
+	while (s[index])
+	{
+		(f)(index, &(s[index]));
+		index++;
+	}
+}

@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/14 13:17:11 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/16 19:47:37 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	handle_argument(char *arg, char **args, int *i)
 // 	return (command);
 // }
 
-void	parse_command(t_parser *parser)
+void	parse_command(t_parser *parser, char **env)
 {
 	char	*args[1024];
 	int		i;
@@ -126,11 +126,11 @@ void	parse_command(t_parser *parser)
 		parser_advance(parser);
 	}
 	args[i] = NULL;
-	execute_command(args[0], args);
+	ft_execute(args, env);
 	printf("ok\n");
 }
 
-void	parse(t_parser *parser)
+void	parse(t_parser *parser, char **env)
 {
-	parse_command(parser);
+	parse_command(parser, env);
 }

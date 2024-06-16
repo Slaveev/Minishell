@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 11:35:59 by dslaveev         ###   ########.fr       */
+/*   Created: 2024/03/09 17:08:00 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/03/09 21:05:44 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "minishell.h"
-
-typedef struct s_parser
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_lexer	*lexer;
-	t_tok	*current_token;
-}			t_parser;
+	t_list	*temp;
 
-void		parse(t_parser *parser, char **env);
-void		parse_command(t_parser *parser, char **env);
-void		parser_advance(t_parser *parser);
-t_parser	*init_parser(t_lexer *lexer);
-int			is_builtin(char *command);
-
-#endif
+	if (lst == NULL && new == NULL)
+		return ;
+	temp = ft_lstlast(*lst);
+	if (!temp)
+	{
+		*lst = new;
+		return ;
+	}
+	temp->next = new;
+}

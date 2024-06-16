@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:01:22 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/14 13:21:44 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:35:11 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,12 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
+# include "libft/libft.h"
 # include "lexer.h"
 # include "parser.h"
 # include "builtin.h"
@@ -85,8 +88,10 @@ typedef struct s_arg
 	struct s_arg	*next;
 }					t_arg;
 
-void	execute_command(char *command, char **args);
+void	execute_command(char *command, char **args, int out_fd);
 void	builtin_exec(char **input, char **env);
+void	print_token(t_tok *token);
+void	ft_execute(char **argv, char **envp);
 
 #endif
 

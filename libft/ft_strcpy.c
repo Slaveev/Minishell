@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 11:35:59 by dslaveev         ###   ########.fr       */
+/*   Created: 2024/03/04 20:31:39 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/03/09 16:17:15 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "minishell.h"
-
-typedef struct s_parser
+/// @brief copies a string source to string destination
+/// @param dest
+/// @param src
+/// @return new destination string
+char	*ft_strcpy(char *dest, char *src)
 {
-	t_lexer	*lexer;
-	t_tok	*current_token;
-}			t_parser;
+	char	*ret;
 
-void		parse(t_parser *parser, char **env);
-void		parse_command(t_parser *parser, char **env);
-void		parser_advance(t_parser *parser);
-t_parser	*init_parser(t_lexer *lexer);
-int			is_builtin(char *command);
-
-#endif
+	ret = dest;
+	while (*src)
+		*(dest++) = *(src++);
+	return (ret);
+}

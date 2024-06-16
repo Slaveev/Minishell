@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 11:35:59 by dslaveev         ###   ########.fr       */
+/*   Created: 2024/03/05 09:37:07 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/03/09 16:33:41 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "minishell.h"
-
-typedef struct s_parser
+/// @brief finds the last occurence of c in a string
+/// @param str
+/// @param character
+/// @return a pointer to its location
+char	*ft_strrchr(const char *str, int character)
 {
-	t_lexer	*lexer;
-	t_tok	*current_token;
-}			t_parser;
+	int		i;
 
-void		parse(t_parser *parser, char **env);
-void		parse_command(t_parser *parser, char **env);
-void		parser_advance(t_parser *parser);
-t_parser	*init_parser(t_lexer *lexer);
-int			is_builtin(char *command);
-
-#endif
+	i = 0;
+	while (str[i])
+		i++;
+	while (i >= 0)
+	{
+		if (str[i--] == (char)character)
+			return ((char *)str + i + 1);
+	}
+	return (0);
+}

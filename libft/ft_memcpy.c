@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 11:35:59 by dslaveev         ###   ########.fr       */
+/*   Created: 2024/03/05 11:04:51 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/03/09 16:06:50 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSER_H
-# define PARSER_H
+#include "libft.h"
 
-# include "minishell.h"
-
-typedef struct s_parser
+/// @brief copy memory from one place to another
+/// @param dst
+/// @param src
+/// @param n
+/// @return the destination that is coppied
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	t_lexer	*lexer;
-	t_tok	*current_token;
-}			t_parser;
+	unsigned char		*d;
+	const unsigned char	*s;
 
-void		parse(t_parser *parser, char **env);
-void		parse_command(t_parser *parser, char **env);
-void		parser_advance(t_parser *parser);
-t_parser	*init_parser(t_lexer *lexer);
-int			is_builtin(char *command);
-
-#endif
+	if (!dst && !src)
+		return (NULL);
+	d = dst;
+	s = src;
+	while (n > 0)
+	{
+		*d++ = *s++;
+		n--;
+	}
+	return (dst);
+}

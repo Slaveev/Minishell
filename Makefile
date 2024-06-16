@@ -1,37 +1,29 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/11 13:38:52 by jsamardz          #+#    #+#              #
-#    Updated: 2024/06/14 12:35:55 by dslaveev         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
-SRC = main.c lexer.c parser.c builtin.c
-OBJ = $(SRC:.c=.o)
+CFLAGS = -Wextra -Werror -Wall -std=c99 -g
+SRCS = main.c lexer.c parser.c builtin.c
+OBJS = $(SRCS:.c=.o)
+LIBFT_DIR = libft
 
 all: $(NAME)
+
+$(NAME): $(OBJS)
+	@echo "Compiling libft"
+	@make -C $(LIBFT_DIR)/
+	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR)/ -lft -lreadline -o $(NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJ)
-	@echo "make"
-	@$(CC) $(OBJ) -o $(NAME) -lreadline
-
 clean:
-	@echo "clean"
-	@rm -f $(OBJ)
+	@echo "Cleaning"
+	@rm -f $(OBJS)
+	@make -C $(LIBFT_DIR) clean
 
 fclean: clean
-	@echo "fclean"
+	@echo "Full cleaning"
 	@rm -f $(NAME)
+	@make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
