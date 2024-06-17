@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wextra -Werror -Wall -std=c99 -g
+CFLAGS = -Wextra -Werror -Wall -g
 SRCS = main.c lexer.c parser.c builtin.c
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
@@ -8,7 +8,7 @@ LIBFT_DIR = libft
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "Compiling libft"
+	@echo "Compiling"
 	@make -C $(LIBFT_DIR)/
 	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR)/ -lft -lreadline -o $(NAME)
 

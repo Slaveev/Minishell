@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/17 13:14:27 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:20:45 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <signal.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -93,6 +93,7 @@ void	execute_command(char *command, char **args, int out_fd);
 void	builtin_exec(char **input, char **env);
 void	print_token(t_tok *token);
 void	ft_execute(char **argv, char **envp);
+void	signal_setup();
 
 #endif
 
