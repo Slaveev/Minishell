@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:47:37 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:49:06 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,24 +102,66 @@ void	handle_argument(char *arg, char **args, int *i)
 // 	return (command);
 // }
 
+char	*expander_env(char *arg, char **env)
+{
+	char	*env_var;
+
+	env = NULL;
+	if (arg[0] == '$')
+	{
+		env_var = getenv(arg + 1);
+		if (env_var != NULL)
+			return (ft_strdup(env_var));
+	}
+	return (ft_strdup(arg));
+}
+
+char	**expander_argv(char **argv, char **env)
+{
+	int		i;
+	char	**expanded_argv;
+
+	i = 0;
+	while (argv[i] != NULL)
+		i++;
+	expanded_argv = malloc((i + 1) * sizeof(char *));
+	i = 0;
+	while (argv[i] != NULL)
+	{
+		expanded_argv[i] = expander_env(argv[i], env);
+		i++;
+	}
+	expanded_argv[i] = NULL;
+	return (expanded_argv);
+}
+
 void	parse_command(t_parser *parser, char **env)
 {
 	char	*args[1024];
 	int		i;
 	int		command;
+	char	*expanded_arg;
 
 	command = 1;
 	i = 0;
 	while (parser->current_token != NULL)
 	{
+		if (parser->current_token->type == CHAR_PIPE)
+		{
+			command = 1;
+			//
+		}
 		if (parser->current_token->type == WORD && command)
 		{
+			expanded_arg = expander_env(parser->current_token->value, env);
 			printf("Command: %s\n", parser->current_token->value);
-			handle_command(parser->current_token->value, args, parser, &i);
+			handle_command(expanded_arg, args, parser, &i);
+			// handle_command(parser->current_token->value, args, parser, &i);
 			command = 0;
 		}
 		else if (!command)
 		{
+			expanded_arg = expander_env(parser->current_token->value, env);
 			handle_argument(parser->current_token->value, args, &i);
 			printf("argument: %s\n", parser->current_token->value);
 		}

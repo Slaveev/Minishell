@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/16 19:43:54 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:47:39 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,8 @@ char	*get_cmd_path(char *cmd, char **env)
 	return (free_str_array(paths), NULL);
 }
 
+
+
 void	ft_execute(char **argv, char **envp)
 {
 	pid_t	pid;
@@ -195,6 +197,7 @@ void	ft_execute(char **argv, char **envp)
 		printf("fml\n");
 		if (execve(argv[0], argv, envp) == -1)
 		{
+			// dup here
 			cmd_path = get_cmd_path(argv[0], envp);
 			printf("cmd path: %s\n", cmd_path);
 			if (!cmd_path)
