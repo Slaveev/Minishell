@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/17 13:14:41 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:18:56 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,24 +245,31 @@ void	child_process(char **args, int *pfd, char **env)
 	exit(EXIT_FAILURE);
 }
 
-// void	parent_process(char **args, int *pfd, char **env)
-// {
-// 	input = handle_space(input);
-// 	if (!strncmp(input, "exit", 4) && (strlen(input) == 4))
-// 	{
-// 		perror("Dup2 failed");
-// 		exit(127);
-// 	}
-// 	if (dup2(pfd[0], STDIN_FILENO) < 0)
-// 	{
-// 		perror("Dup2 failed");
-// 		exit(127);
-// 	}
-// 	close(fdout);
-// 	ft_close_fd(pfd);
-// 	ft_execute(args, env);
-// 	exit(EXIT_FAILURE);
-// }
+void	parent_process(char **args, int *pfd, char **env)
+{
+	int		fdout;
+
+	fdout = open(args[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fdout <= -1)
+	{
+		perror("Error openning file descriptor");
+		exit(EXIT_FAILURE);
+	}
+	if (dup2(fdout, STDOUT_FILENO) < 0)
+	{
+		perror("Dup2 failed");
+		exit(127);
+	}
+	if (dup2(pfd[0], STDIN_FILENO) < 0)
+	{
+		perror("Dup2 failed");
+		exit(127);
+	}
+	close(fdout);
+	ft_close_fd(pfd);
+	ft_execute(args, env);
+	exit(EXIT_FAILURE);
+}
 
 // int	pid_process(char **args, int *pfd, char **env)
 // {
@@ -291,14 +298,25 @@ void	child_process(char **args, int *pfd, char **env)
 
 int main(int argc, char **argv, char **env)
 {
-	char	*prompt;
-	char	*input;
+	char		*prompt;
+	char		*input;
+	t_lexer		lexer;
+	t_parser	*parser;
+	// int			status;
+	// int			pfd[2];
 
+	// env = NULL;
+	argv = NULL;
+	if (argc > 1)
+		return (printf("Error: too many arguments\n"), 1);
 	prompt = set_prompt("balkanshell$ ");
 	while (1)
 	{
 		input = readline(prompt);
-		handle_input(input);
+		init_lexer(&lexer, input);
+		parser = init_parser(&lexer);
+		parse(parser, env);
+		// status = pid_process(parser->input, pfd, env);
 	}
 	free(prompt);
 }

@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/06/11 13:38:52 by jsamardz          #+#    #+#              #
-#    Updated: 2024/06/11 15:28:01 by jsamardz         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME = minishell
 CC = cc
 CFLAGS = -Wextra -Werror -Wall -std=c99 -g
@@ -41,4 +28,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
->>>>>>> 2ea129e415f2e530d08e7aa235941dbd37f50dd7
