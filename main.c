@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/17 13:11:08 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/17 13:14:41 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,24 +245,24 @@ void	child_process(char **args, int *pfd, char **env)
 	exit(EXIT_FAILURE);
 }
 
-void	parent_process(char **args, int *pfd, char **env)
-{
-	input = handle_space(input);
-	if (!strncmp(input, "exit", 4) && (strlen(input) == 4))
-	{
-		perror("Dup2 failed");
-		exit(127);
-	}
-	if (dup2(pfd[0], STDIN_FILENO) < 0)
-	{
-		perror("Dup2 failed");
-		exit(127);
-	}
-	close(fdout);
-	ft_close_fd(pfd);
-	ft_execute(args, env);
-	exit(EXIT_FAILURE);
-}
+// void	parent_process(char **args, int *pfd, char **env)
+// {
+// 	input = handle_space(input);
+// 	if (!strncmp(input, "exit", 4) && (strlen(input) == 4))
+// 	{
+// 		perror("Dup2 failed");
+// 		exit(127);
+// 	}
+// 	if (dup2(pfd[0], STDIN_FILENO) < 0)
+// 	{
+// 		perror("Dup2 failed");
+// 		exit(127);
+// 	}
+// 	close(fdout);
+// 	ft_close_fd(pfd);
+// 	ft_execute(args, env);
+// 	exit(EXIT_FAILURE);
+// }
 
 // int	pid_process(char **args, int *pfd, char **env)
 // {

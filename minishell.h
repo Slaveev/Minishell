@@ -3,32 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
+/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/11 10:01:22 by dslaveev          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/06/11 15:44:16 by jsamardz         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/15 15:35:11 by dslaveev         ###   ########.fr       */
->>>>>>> 2ea129e415f2e530d08e7aa235941dbd37f50dd7
+/*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/06/17 13:14:27 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-<<<<<<< HEAD
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <unistd.h>
 #include <signal.h>
-
-//signals
-void	signal_setup();
-=======
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -108,7 +93,6 @@ void	execute_command(char *command, char **args, int out_fd);
 void	builtin_exec(char **input, char **env);
 void	print_token(t_tok *token);
 void	ft_execute(char **argv, char **envp);
->>>>>>> 2ea129e415f2e530d08e7aa235941dbd37f50dd7
 
 #endif
 
