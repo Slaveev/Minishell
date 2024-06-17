@@ -6,8 +6,16 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
+<<<<<<< HEAD
       "cwd": "/Users/jsamardz/Desktop/minishell",
       "program": "/Users/jsamardz/Desktop/minishell/build/Debug/outDebug"
     }
   ]
 }
+=======
+      "cwd": "/Users/dslaveev/shellbratko/intra-uuid-fef9ef04-29c3-4a67-999d-0e2c9f4ac679-5722204-dslaveev/",
+      "program": "/Users/dslaveev/shellbratko/intra-uuid-fef9ef04-29c3-4a67-999d-0e2c9f4ac679-5722204-dslaveev/minishell"
+    }
+  ]
+}
+>>>>>>> 2ea129e415f2e530d08e7aa235941dbd37f50dd7
