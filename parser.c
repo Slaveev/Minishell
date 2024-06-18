@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/17 13:33:32 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/06/18 10:16:04 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	handle_command(char *command, char **args, t_parser *parser, int *i)
 	if (is_builtin(command))
 	{
 		grouped = group_together(parser);
+		printf("parser\n");
 		builtin_exec(grouped, env);
 		free(grouped);
 	}
@@ -135,41 +136,42 @@ char	**expander_argv(char **argv, char **env)
 	return (expanded_argv);
 }
 
-void	parse_command(t_parser *parser, char **env)
+void    parse_command(t_parser *parser, char **env)
 {
-	char	*args[1024];
-	int		i;
-	int		command;
-	char	*expanded_arg;
-
-	command = 1;
-	i = 0;
-	while (parser->current_token != NULL)
-	{
-		if (parser->current_token->type == CHAR_PIPE)
-		{
-			command = 1;
-			//
-		}
-		if (parser->current_token->type == WORD && command)
-		{
-			expanded_arg = expander_env(parser->current_token->value, env);
-			printf("Command: %s\n", parser->current_token->value);
-			handle_command(expanded_arg, args, parser, &i);
-			// handle_command(parser->current_token->value, args, parser, &i);
-			command = 0;
-		}
-		else if (!command)
-		{
-			expanded_arg = expander_env(parser->current_token->value, env);
-			handle_argument(parser->current_token->value, args, &i);
-			printf("argument: %s\n", parser->current_token->value);
-		}
-		parser_advance(parser);
-	}
-	args[i] = NULL;
-	ft_execute(args, env);
-	printf("ok\n");
+    char    *args[1024];
+    int     i;
+    int     command;
+    // char *expanded_arg;
+    command = 1;
+    i = 0;
+    while (parser->current_token != NULL)
+    {
+        if (parser->current_token->type == CHAR_PIPE)
+        {
+            command = 1;
+            //
+        }
+        if (parser->current_token->type == WORD && command)
+        {
+            // expanded_arg = expander_env(parser->current_token->value, env);
+            printf("Command: %s\n", parser->current_token->value);
+            // handle_command(expanded_arg, args, parser, &i);
+            // args[i++] = parser->current_token->value;
+            handle_command(parser->current_token->value, args, parser, &i);
+            command = 0;
+        }
+        else if (!command)
+        {
+            // expanded_arg = expander_env(parser->current_token->value, env);
+            handle_argument(parser->current_token->value, args, &i);
+            printf("argument: %s\n", parser->current_token->value);
+        }
+        parser_advance(parser);
+    }
+    args[i] = NULL;
+	printf("before exicute\n");
+    ft_execute(args, env);
+    printf("ok\n");
 }
 
 void	parse(t_parser *parser, char **env)

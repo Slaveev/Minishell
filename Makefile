@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wextra -Werror -Wall -g
-SRCS = main.c lexer.c parser.c builtin.c
+SRCS = main.c lexer.c parser.c builtin.c signals.c
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
 

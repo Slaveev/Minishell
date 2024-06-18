@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/17 13:18:56 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/18 10:18:12 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,49 +175,48 @@ char	*get_cmd_path(char *cmd, char **env)
 	return (free_str_array(paths), NULL);
 }
 
-
-
-void	ft_execute(char **argv, char **envp)
+void    ft_execute(char **argv, char **envp)
 {
-	pid_t	pid;
-	char	*cmd_path;
-	int		status;
-
-	if (is_builtin(argv[0]))
-	{
-		builtin_exec(argv, envp);
-		return ;
-	}
-	cmd_path = NULL;
-	pid = fork();
-	if (pid == -1)
-		ft_error("Failed to fork", 1);
-	else if (pid == 0)
-	{
-		printf("fml\n");
-		if (execve(argv[0], argv, envp) == -1)
-		{
-			// dup here
-			cmd_path = get_cmd_path(argv[0], envp);
-			printf("cmd path: %s\n", cmd_path);
-			if (!cmd_path)
-			{
-				// free_str_array(cmd);
-				ft_error("Command not found", 127);
-			}
-			if (execve(cmd_path, argv, envp) == -1)
-			{
-				free(cmd_path);
-				// free_str_array(cmd);
-				ft_error("Command not executable", 126);
-			}
-			free(cmd_path);
-		}
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-	}
+    pid_t   pid;
+    char    *cmd_path;
+    int     status;
+    if (is_builtin(argv[0]))
+    {
+        // builtin_exec(argv, envp);
+        return ;
+    }
+    cmd_path = NULL;
+    pid = fork();
+    if (pid == -1)
+        ft_error("Failed to fork", 1);
+    else if (pid == 0)
+    {
+        printf("fml\n");
+        if (execve(argv[0], argv, envp) == -1)
+        {
+            // dup here
+            cmd_path = get_cmd_path(argv[0], envp);
+            printf("cmd path: %s\n", cmd_path);
+            if (!cmd_path)
+            {
+                // free_str_array(cmd);
+                ft_error("Command not found", 127);
+            }
+            if (execve(cmd_path, argv, envp) == -1)
+            {
+                free(cmd_path);
+                // free_str_array(cmd);
+                ft_error("Command not executable", 126);
+            }
+            free(cmd_path);
+        }
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+        // if (WIFEXITED(status))
+            // g_sig.exstatus = WEXITSTATUS(status);
+    }
 }
 
 void	child_process(char **args, int *pfd, char **env)
@@ -305,6 +304,7 @@ int main(int argc, char **argv, char **env)
 	// int			status;
 	// int			pfd[2];
 
+	signal_setup();
 	// env = NULL;
 	argv = NULL;
 	if (argc > 1)
@@ -313,6 +313,8 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		input = readline(prompt);
+		if (input == NULL)
+			break ;
 		init_lexer(&lexer, input);
 		parser = init_parser(&lexer);
 		parse(parser, env);
