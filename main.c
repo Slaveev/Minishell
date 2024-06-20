@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/18 10:18:12 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:27:52 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,6 +313,7 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		input = readline(prompt);
+		add_history(input);
 		if (input == NULL)
 			break ;
 		init_lexer(&lexer, input);
