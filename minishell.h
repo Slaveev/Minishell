@@ -6,13 +6,14 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/26 13:14:34 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:36:54 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -80,19 +81,7 @@ typedef struct s_env
 char	*expander_env(char *arg, char **env);
 void	builtin_exec(char **input, char **env);
 void	print_token(t_tok *token);
-// void	ft_execute(t_cmd *cmd, char **env);
-void ft_execute(t_cmd_node *cmd_list, char **env);
-// void ft_execute(t_cmd **cmds, int num_cmds, char **env);
-
-char	*get_cmd_path(char *cmd, char **env);
-void	free_str_array(char **array);
-void	ft_error(const char *msg, int status);
-void	ft_close_fd(int *pfd);
-
-// void ft_execute(t_cmd *cmd, char **env);
-int	is_builtin(char *command);
-
-void free_cmd_list(t_cmd_node *cmd_list);
+void	ft_execute(char **argv, char **envp);
 
 #endif
 

@@ -24,19 +24,19 @@ BOBUS_OBJS = $(BNS:.c=.o)
 all: $(NAME)
 
 %.o: %.c
-	$(CC) -I. $(CCFLAGS) -c $< -o $@
+	@$(CC) -I. $(CCFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
 
 bonus: $(OBJS) $(BOBUS_OBJS)
-	ar rc $(NAME) $(BOBUS_OBJS) $(OBJ)
+	@ar rc $(NAME) $(BOBUS_OBJS) $(OBJ)
 
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 re: fclean all
 

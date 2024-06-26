@@ -8,7 +8,7 @@ LIBFT_DIR = libft
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "Compiling libft"
+	@echo "Compiling"
 	@make -C $(LIBFT_DIR)/
 	@$(CC) $(CFLAGS) $(OBJS) -L$(LIBFT_DIR)/ -lft -lreadline -o $(NAME)
 
