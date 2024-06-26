@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
+/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/17 13:20:45 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/06/26 13:36:54 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <signal.h>
+#include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -24,8 +24,10 @@
 # include <unistd.h>
 # include "libft/libft.h"
 # include "lexer.h"
-# include "parser.h"
+// # include "parser.h"
 # include "builtin.h"
+# include <signal.h>
+# include <stdbool.h>
 
 # define MAXARGS 10
 
@@ -37,63 +39,49 @@ enum e_cmd_types{
 	REDIR = 5
 };
 
-struct s_cmd
+typedef struct s_sig
 {
-	enum e_cmd_types	type;
-	char				*cmd;
-	char				**args;
-	struct s_cmd		*left;
-	struct s_cmd		*right;
-}						t_cmd;
+	int		sigint;
+	int		sigquit;
+	int		exstatus;
+	pid_t	pid;
+}				t_sig;
 
-struct s_exec_cmd
+typedef struct s_cmd
 {
-	enum e_cmd_types	type;
-	char				*argv[MAXARGS];
-	char				*eargv[MAXARGS];
-};
+	char			*command;
+	char			**args;
+	char			*fd_in;
+	char			*fd_out;
+	pid_t			pid;
+	bool			pipe;
+	int				status;
+	struct s_cmd	*next;
+}					t_cmd;
 
-struct s_pipe_cmd
+typedef struct s_cmd_node
 {
-	enum e_cmd_types	type;
-	struct s_cmd		*left;
-	struct s_cmd		*right;
-};
+	t_cmd				*cmd;
+	struct s_cmd_node	*next;
+}						t_cmd_node;
 
-struct s_list_cmd
+typedef struct s_env_var
 {
-	enum e_cmd_types	type;
-	struct s_cmd		*left;
-	struct s_cmd		*right;
-};
+	char *key;
+	char *value;
+	struct s_env_var *next;
+}	t_env_var;
 
-struct s_redir_cmd
+typedef struct s_env
 {
-	enum e_cmd_types	type;
-	struct s_cmd		*cmd;
-	char				*start_f;
-	char				*end_f;
-	int					mode;
-	int					fd;
-};
+	t_env_var *vars;
+	char *curr_dir;
+} t_env;
 
-struct s_back_cmd
-{
-	enum e_cmd_types	type;
-	struct s_cmd		*cmd;
-};
-
-typedef struct s_arg
-{
-	char			*value;
-	struct s_arg	*next;
-}					t_arg;
-
-void	execute_command(char *command, char **args, int out_fd);
+char	*expander_env(char *arg, char **env);
 void	builtin_exec(char **input, char **env);
 void	print_token(t_tok *token);
 void	ft_execute(char **argv, char **envp);
-void	signal_setup();
 
 #endif
 
