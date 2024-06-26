@@ -6,16 +6,22 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/13 12:29:47 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:39:56 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+// # include "minishell.h"
 
 enum token_types{
 	CHAR_LESS = '<',

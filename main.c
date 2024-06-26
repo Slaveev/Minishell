@@ -6,11 +6,14 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/17 13:18:56 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/06/26 12:34:55 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
+
+extern t_sig	g_sig;
 
 void print_token(t_tok *token)
 {
@@ -125,238 +128,209 @@ char	*set_prompt(char *input)
 // }
 
 
-void	ft_close_fd(int *pfd)
-{
-	close(pfd[0]);
-	close(pfd[1]);
-}
-
-void	ft_error(const char *msg, int status)
-{
-	perror(msg);
-	exit(status);
-}
-
-void	free_str_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
-
-char	*get_cmd_path(char *cmd, char **env)
-{
-	int		i;
-	char	**paths;
-	char	*path;
-	char	*tmp;
-
-	i = 0;
-	while (env[i] != NULL && ft_strncmp(env[i], "PATH=", 5))
-		i++;
-	paths = ft_split(env[i] + 5, ':');
-	i = 0;
-	while (paths[i] != NULL)
-	{
-		tmp = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(tmp, cmd);
-		free(tmp);
-		if (access(path, X_OK | F_OK) == 0)
-			return (free_str_array(paths), path);
-		free(path);
-		i++;
-	}
-	return (free_str_array(paths), NULL);
-}
 
 
-
-void	ft_execute(char **argv, char **envp)
-{
-	pid_t	pid;
-	char	*cmd_path;
-	int		status;
-
-	if (is_builtin(argv[0]))
-	{
-		builtin_exec(argv, envp);
-		return ;
-	}
-	cmd_path = NULL;
-	pid = fork();
-	if (pid == -1)
-		ft_error("Failed to fork", 1);
-	else if (pid == 0)
-	{
-		printf("fml\n");
-		if (execve(argv[0], argv, envp) == -1)
-		{
-			// dup here
-			cmd_path = get_cmd_path(argv[0], envp);
-			printf("cmd path: %s\n", cmd_path);
-			if (!cmd_path)
-			{
-				// free_str_array(cmd);
-				ft_error("Command not found", 127);
-			}
-			if (execve(cmd_path, argv, envp) == -1)
-			{
-				free(cmd_path);
-				// free_str_array(cmd);
-				ft_error("Command not executable", 126);
-			}
-			free(cmd_path);
-		}
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-	}
-}
-
-void	child_process(char **args, int *pfd, char **env)
-{
-	int		fdin;
-
-	if (access(args[1], F_OK) == -1)
-		ft_error("No such file", 1);
-	fdin = open(args[1], O_RDONLY);
-	if (fdin <= -1)
-		ft_error("Error opening input file", EXIT_FAILURE);
-	if (dup2(fdin, STDIN_FILENO) < 0)
-	{
-		perror("Dup2 failed");
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(pfd[1], STDOUT_FILENO) < 0)
-	{
-		perror("Dup2 failed");
-		exit(EXIT_FAILURE);
-	}
-	close(fdin);
-	ft_close_fd(pfd);
-	ft_execute(args, env);
-	exit(EXIT_FAILURE);
-}
-
-void	parent_process(char **args, int *pfd, char **env)
-{
-	int		fdout;
-
-	fdout = open(args[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fdout <= -1)
-	{
-		perror("Error openning file descriptor");
-		exit(EXIT_FAILURE);
-	}
-	if (dup2(fdout, STDOUT_FILENO) < 0)
-	{
-		perror("Dup2 failed");
-		exit(127);
-	}
-	if (dup2(pfd[0], STDIN_FILENO) < 0)
-	{
-		perror("Dup2 failed");
-		exit(127);
-	}
-	close(fdout);
-	ft_close_fd(pfd);
-	ft_execute(args, env);
-	exit(EXIT_FAILURE);
-}
-
-// int	pid_process(char **args, int *pfd, char **env)
+// char	*find_cmmand_in_path(const char *command, char **env)
 // {
-// 	pid_t	pid1;
-// 	pid_t	pid2;
-// 	int		status1;
+// 	const char	*path_env;
+// 	char		*path;
+// 	char		*token;
+// 	char		*full_path;
 
-// 	if (pipe(pfd) == -1)
-// 		ft_error("Failed to create pipe", EXIT_FAILURE);
-// 	pid1 = fork();
-// 	if (pid1 == -1)
-// 		ft_error("Failed to fork child process 1", EXIT_FAILURE);
-// 	if (pid1 == 0)
-// 		child_process(args, pfd, env);
-// 	pid2 = fork();
-// 	if (pid2 == -1)
-// 		ft_error("Failed to fork child process 2", EXIT_FAILURE);
-// 	if (pid2 == 0)
-// 		parent_process(args, pfd, env);
-// 	ft_close_fd(pfd);
-// 	waitpid(pid2, &status1, 0);
-// 	if (WIFEXITED(status1))
-// 		status1 = WEXITSTATUS(status1);
-// 	return (status1);
+// 	if (ft_strchr(command, '/') != NULL)
+// 		return (ft_strdup(command));
+// 	path_env = getenv("PATH");
+// 	if (path_env == NULL)
+// 		return (NULL);
+// 	path = ft_strdup(path_env);
+// 	token = strtok(path, ":");
+// 	while (token != NULL)
+// 	{
+// 		full_path = malloc(ft_strlen(token) + ft_strlen(command) + 2);
+// 		if (access(full_path, X_OK) == 0)
+// 		{
+// 			free(path);
+// 			return (full_path);
+// 		}
+// 		free(full_path);
+// 		token = strtok(NULL, ":");
+// 	}
+// 	free(path);
+// 	return (NULL);
 // }
 
-int main(int argc, char **argv, char **env)
-{
-	char		*prompt;
-	char		*input;
-	t_lexer		lexer;
-	t_parser	*parser;
-	// int			status;
-	// int			pfd[2];
+// char *execute_command_and_capture_output(char *command) {
+//     int pipefd[2];
+//     pid_t pid;
+//     char buffer[1024];
+//     int status;
+//     size_t read_bytes;
 
-	// env = NULL;
+//     // Create a pipe to capture stdout
+//     if (pipe(pipefd) == -1) {
+//         perror("pipe");
+//         return NULL;
+//     }
+
+//     pid = fork();
+//     if (pid == -1) {
+//         perror("fork");
+//         return NULL;
+//     } else if (pid == 0) {
+//         // Child process
+//         close(pipefd[0]); // Close unused read end
+//         dup2(pipefd[1], STDOUT_FILENO); // Redirect stdout to pipe
+//         execlp("sh", "sh", "-c", command, (char *)NULL);
+//         // If execlp returns, it must have failed
+//         perror("execlp");
+//         exit(EXIT_FAILURE);
+//     } else {
+//         // Parent process
+//         close(pipefd[1]); // Close unused write end
+//         waitpid(pid, &status, 0); // Wait for child process to finish
+
+//         read_bytes = read(pipefd[0], buffer, sizeof(buffer) - 1);
+//         if (read_bytes > 0) {
+//             buffer[read_bytes] = '\0'; // Null-terminate the string
+//         } else {
+//             buffer[0] = '\0'; // Empty output
+//         }
+//         close(pipefd[0]);
+//     }
+
+//     return strdup(buffer); // Caller is responsible for freeing this memory
+// }
+
+char	*expander_env(char *arg, char **env)
+{
+	char	*env_var;
+
+	env = NULL;
+	if (arg[0] == '$')
+	{
+		if (arg[1] == '?')
+		{
+			printf("exit status\n");
+			// return (ft_itoa(g_sig.exstatus));
+		}
+		else
+		{
+			env_var = getenv(arg + 1);
+			if (env_var != NULL)
+				return (ft_strdup(env_var));
+		}
+	}
+	return (ft_strdup(arg));
+}
+
+int is_only_whitespace(const char *str)
+{
+	while (*str) {
+		if (!isspace((unsigned char)*str))
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+int main(int argc, char **argv, char **env) {
+	char *prompt;
+	char *input;
+	t_lexer lexer;
+	t_parser *parser;
+	t_cmd_node *cmd = NULL;
+
 	argv = NULL;
+	argc = 0;
 	if (argc > 1)
 		return (printf("Error: too many arguments\n"), 1);
 	prompt = set_prompt("balkanshell$ ");
 	while (1)
 	{
 		input = readline(prompt);
+        if (input == NULL || *input == '\0' || is_only_whitespace(input))
+		{
+			free(input);
+			continue;
+		}
 		init_lexer(&lexer, input);
 		parser = init_parser(&lexer);
-		parse(parser, env);
-		// status = pid_process(parser->input, pfd, env);
+		parse_command(parser, &cmd, env);
+		free_cmd_list(cmd);
+		cmd = NULL;
+		free(input);
 	}
 	free(prompt);
 }
-// need two global var
-// nextToken
-// resultTree
-// how it should work
 
-// 1 scanToken()
-// 2 resultTree = parseE()
-// 3 if nextToken != EOF
-// 4 error()
-// 5 printTree(resultTree)
+// int main(int argc, char *argv[], char *envp[]) {
 
-// make while loop to first check if its a builtin
-	// if it is execute builtin
-// else its not a builtin so we need to fork and run the command
-	// exec the command
-
-// parseexec - redir { aaa redir }+
-// parseredirs - { > < >> aaa}
-// pipe - exec [| pipe]
-// parseline - pipe {&} [; line]
-// block - (line) redir
-
-// pipe -> exec
-// pipe -> exec | pipe
-
-// aaa || (bbb | (ccc | ddd))
-			// pipe
-		  //    |
-		// exec	  pipe
-		//  aaa    |
-	//       exec     pipe
-	//       bbb       |
-	//  		  exec     pipe
-			//	  ccc       |
-						// exec
-						// ddd
-
-// first one should be a command
-// after the first one should be an argument
-// if its a pipe then we are expecting a command
+// 	argc = 0;
+// 	argv = NULL;
+//     char *command;
+//     while (1) {
+//         command = readline("Shell> ");
+//         if (!command) {
+//             break;
+//         }
+//         if (strlen(command) > 0) {
+//             add_history(command);
+//         }
+//         char *commands[1024];
+//         int num_pipes = 0;
+//         char *token;
+//         token = strtok(command, "|");
+//         while (token != NULL) {
+//             commands[num_pipes++] = token;
+//             token = strtok(NULL, "|");
+//         }
+//         commands[num_pipes] = NULL;
+//         int pipefds[2 * (num_pipes - 1)];
+//         pid_t pid;
+//         int status;
+//         int i;
+//         for (i = 0; i < num_pipes - 1; i++) {
+//             if (pipe(pipefds + i * 2) == -1) {
+//                 perror("pipe");
+//                 exit(EXIT_FAILURE);
+//             }
+//         }
+//         for (i = 0; i < num_pipes; i++) {
+//             pid = fork();
+//             if (pid == -1) {
+//                 perror("fork");
+//                 exit(EXIT_FAILURE);
+//             } else if (pid == 0) {
+//                 if (i > 0) {
+//                     if (dup2(pipefds[(i - 1) * 2], 0) == -1) {
+//                         perror("dup2");
+//                         exit(EXIT_FAILURE);
+//                     }
+//                 }
+//                 if (i < num_pipes - 1) {
+//                     if (dup2(pipefds[i * 2 + 1], 1) == -1) {
+//                         perror("dup2");
+//                         exit(EXIT_FAILURE);
+//                     }
+//                 }
+//                 for (int j = 0; j < 2 * (num_pipes - 1); j++) {
+//                     close(pipefds[j]);
+//                 }
+//                 t_cmd cmd;
+//                 t_parser parser;
+//                 parser.current_token->value = token; // Set the initial token for the parser
+//                 printf("Token: %s\n", parser.current_token->value);
+// 				parse_command(&parser, &cmd, envp);
+//                 exit(EXIT_SUCCESS);
+//             }
+//         }
+//         for (i = 0; i < 2 * (num_pipes - 1); i++) {
+//             close(pipefds[i]);
+//         }
+//         for (i = 0; i < num_pipes; i++) {
+//             wait(&status);
+//         }
+//         free(command);
+//     }
+//     return 0;
+// }
