@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/26 13:42:41 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/06/26 14:06:24 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,7 @@ int main(int argc, char **argv, char **env) {
 
 	argv = NULL;
 	argc = 0;
+	signal_setup();
 	if (argc > 1)
 		return (printf("Error: too many arguments\n"), 1);
 	prompt = set_prompt("balkanshell$ ");

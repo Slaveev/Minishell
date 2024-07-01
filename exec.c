@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:41:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/25 12:42:25 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:43:16 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,11 +110,11 @@ void ft_execute(t_cmd_node *cmd_list, char **env)
 
 	while (current_node != NULL)
 	{
-		if (is_builtin(current_node->cmd->command))
-		{
-			builtin_exec(current_node->cmd->args, env);
-			return;
-		}
+		// if (is_builtin(current_node->cmd->command))
+		// {
+		// 	builtin_exec(current_node->cmd->args, env);
+		// 	return;
+		// }
 		t_cmd *cmd = current_node->cmd;
 		char *cmd_path;
 		int fd_input = -1, fd_output = -1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/26 13:36:54 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:43:56 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ typedef struct s_env
 char	*expander_env(char *arg, char **env);
 void	builtin_exec(char **input, char **env);
 void	print_token(t_tok *token);
-void	ft_execute(char **argv, char **envp);
+void free_cmd_list(t_cmd_node *cmd_list);
+void ft_execute(t_cmd_node *cmd_list, char **env);
+void	signal_setup();
 
 #endif
 

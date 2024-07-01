@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/20 12:45:25 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/01 12:44:34 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,3 +82,9 @@ int	is_builtin(char *command)
 	}
 	return (0);
 }
+
+// void	ft_error(char *msg, int e)
+// {
+// 	fprintf(stderr, "Error: %s", msg);
+// 	exit(EXIT_FAILURE);
+// }
