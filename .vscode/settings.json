@@ -63,6 +63,7 @@
     "stdio.h": "c",
     "__mutex_base": "c",
     "wait.h": "c",
-    "readline.h": "c"
+    "readline.h": "c",
+    "history.h": "c"
   }
 }

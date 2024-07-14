@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/26 13:36:54 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/14 11:11:18 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,25 @@ typedef struct s_env
 } t_env;
 
 char	*expander_env(char *arg, char **env);
-void	builtin_exec(char **input, char **env);
+void	builtin_exec(char **input, t_env *env);
 void	print_token(t_tok *token);
-void	ft_execute(char **argv, char **envp);
+void ft_execute(t_cmd_node *cmd_list, t_env *env);
+void free_cmd_list(t_cmd_node *cmd_list);
+int	is_builtin(char *command);
+void	ft_error(const char *msg, int status);
+void free_char_array(char **array);
+char **env_to_char_array(t_env *env);
+
+void	handle_env(t_env *env);
+void handle_cd(char **input, t_env *env);
+
+
+void	init_env(t_env *env, char **environ);
+void	set_env_var(t_env *env, const char *key, const char *value);
+void	unset_env_var(t_env *env, const char *key);
+char	*get_env_var(t_env *env, const char *key);
+void	change_dir_exec(t_env *env, const char *path);
+void	free_env(t_env *env);
 
 #endif
 

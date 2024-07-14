@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/26 13:40:22 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/14 11:11:40 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,181 +255,79 @@ void free_cmd_list(t_cmd_node *cmd_list) {
     }
 }
 
-void parse_command(t_parser *parser, t_cmd_node **cmd_list, char **env)
-{
-	int cmd_flag = 1;
-	t_cmd_node *current_node = NULL;
-	t_cmd *current_cmd = NULL;
+// void parse_command(t_parser *parser, t_cmd_node **cmd_list, char **env)
+// {
+// 	int cmd_flag = 1;
+// 	t_cmd_node *current_node = NULL;
+// 	t_cmd *current_cmd = NULL;
 
-	// env = NULL;
-	if (!parser || !cmd_list)
-	{
-		perror("parser or cmd_list is NULL");
-		return;
-	}
-	while (parser->current_token != NULL)
-	{
-		if (cmd_flag == 1) {
-			t_cmd_node *new_node = calloc(1, sizeof(t_cmd_node));
-			if (new_node == NULL)
-			{
-				perror("Failed to allocate memory for cmd_node");
-				free_cmd_list(*cmd_list);
-				return;
-			}
-			if (*cmd_list == NULL)
-			{
-				*cmd_list = new_node;
-			}
-			else
-			{
-				if (current_node != NULL)
-				{
-					current_node->next = new_node;
-				}
-			}
-			current_node = new_node;
-			current_node->cmd = calloc(1, sizeof(t_cmd));
-			if (current_node->cmd == NULL)
-			{
-				perror("Failed to allocate memory for cmd");
-				free_cmd_list(*cmd_list);
-				return;
-			}
-			current_cmd = current_node->cmd;
-			cmd_flag = 0;
-		}
-		if (parser->current_token->type == CHAR_PIPE)
-		{
-			current_cmd->pipe = true;
-			cmd_flag = 1;
-		}
-		else if (parser->current_token->type == WORD)
-		{
-			if (current_cmd->command == NULL)
-			{
-				current_cmd->command = strdup(parser->current_token->value);
-				if (current_cmd->command == NULL)
-				{
-					perror("Failed to duplicate command string");
-					free_cmd_list(*cmd_list);
-					return;
-				}
-				current_cmd->args = calloc(2, sizeof(char*));
-				if (current_cmd->args == NULL)
-				{
-					perror("Failed to allocate memory for args");
-					free_cmd_list(*cmd_list);
-					return;
-				}
-				current_cmd->args[0] = current_cmd->command;
-			}
-			else
-			{
-				int args_len;
-				for (args_len = 0; current_cmd->args[args_len] != NULL; ++args_len);
-				char **new_args = realloc(current_cmd->args, sizeof(char*) * (args_len + 2));
-				if (new_args == NULL) {
-					perror("Failed to reallocate memory for args");
-					free_cmd_list(*cmd_list);
-					return;
-				}
-				current_cmd->args = new_args;
-				current_cmd->args[args_len] = strdup(parser->current_token->value);
-				if (current_cmd->args[args_len] == NULL) {
-					perror("Failed to duplicate argument string");
-					free_cmd_list(*cmd_list);
-					return;
-				}
-				current_cmd->args[args_len + 1] = NULL;
-			}
-		}
-		parser_advance(parser);
-	}
-	// if (is_builtin(current_cmd->command))
-	// {
-	// 	builtin_exec(current_cmd->args, env);
-	// 	printf("builtin executed\n");
-	// 	return;
-	// }
-	int i = 0;
-	while (current_cmd->args[i] != NULL)
-	{
-		printf("current_cmd->args[%d]: %s\n", i, current_cmd->args[i]);
-		i++;
-	}
-	ft_execute(*cmd_list, env);
-}
-
-
-// ALSO WORKING
-// void parse_command(t_parser *parser, t_cmd_node **cmd_list, char **env) {
-//     int cmd_flag = 1;
-//     t_cmd_node *current_node = NULL;
-//     t_cmd *current_cmd = NULL;
-
-//     // Initialize cmd_list to NULL to avoid dangling pointer issues
-//     // *cmd_list = NULL;
 // 	// env = NULL;
-
-// 	if (!parser || !cmd_list) {
-//     perror("parser or cmd_list is NULL");
-//     return;
+// 	if (!parser || !cmd_list)
+// 	{
+// 		perror("parser or cmd_list is NULL");
+// 		return;
 // 	}
-// 	printf("cmd_list: %p\n", *cmd_list);
-//     while (parser->current_token != NULL) {
-//         if (cmd_flag == 1) {
-//             t_cmd_node *new_node = calloc(1, sizeof(t_cmd_node));
-//             if (new_node == NULL) {
-//                 perror("Failed to allocate memory for cmd_node");
-//                 free_cmd_list(*cmd_list);
-//                 return;
-//             }
-//             if (*cmd_list == NULL) {
-//                 *cmd_list = new_node;
-//             } else {
-//                 if (current_node != NULL) {
-//                     current_node->next = new_node;
-//                 }
-//             }
-// 			printf("ok\n");
-//             current_node = new_node;
-//             current_node->cmd = calloc(1, sizeof(t_cmd));
-//             if (current_node->cmd == NULL) {
-//                 perror("Failed to allocate memory for cmd");
-//                 free_cmd_list(*cmd_list);
-//                 return;
-//             }
-//             current_cmd = current_node->cmd;
-//             cmd_flag = 0;
-//         }
-
-//         if (parser->current_token->type == CHAR_PIPE) {
-//             current_cmd->pipe = true; // Set the pipe flag
-//             cmd_flag = 1;
-//         } else if (parser->current_token->type == WORD) {
-//             if (current_cmd->command == NULL) {
+// 	while (parser->current_token != NULL)
+// 	{
+// 		if (cmd_flag == 1) {
+// 			t_cmd_node *new_node = calloc(1, sizeof(t_cmd_node));
+// 			if (new_node == NULL)
+// 			{
+// 				perror("Failed to allocate memory for cmd_node");
+// 				free_cmd_list(*cmd_list);
+// 				return;
+// 			}
+// 			if (*cmd_list == NULL)
+// 			{
+// 				*cmd_list = new_node;
+// 			}
+// 			else
+// 			{
+// 				if (current_node != NULL)
+// 				{
+// 					current_node->next = new_node;
+// 				}
+// 			}
+// 			current_node = new_node;
+// 			current_node->cmd = calloc(1, sizeof(t_cmd));
+// 			if (current_node->cmd == NULL)
+// 			{
+// 				perror("Failed to allocate memory for cmd");
+// 				free_cmd_list(*cmd_list);
+// 				return;
+// 			}
+// 			current_cmd = current_node->cmd;
+// 			cmd_flag = 0;
+// 		}
+// 		if (parser->current_token->type == CHAR_PIPE)
+// 		{
+// 			current_cmd->pipe = true;
+// 			cmd_flag = 1;
+// 		}
+// 		else if (parser->current_token->type == WORD)
+// 		{
+// 			if (current_cmd->command == NULL)
+// 			{
 // 				current_cmd->command = strdup(parser->current_token->value);
-// 				if (current_cmd->command == NULL) {
+// 				if (current_cmd->command == NULL)
+// 				{
 // 					perror("Failed to duplicate command string");
 // 					free_cmd_list(*cmd_list);
 // 					return;
 // 				}
-// 				// Initialize args array with space for 2 pointers: one argument and one NULL terminator
 // 				current_cmd->args = calloc(2, sizeof(char*));
-// 				if (current_cmd->args == NULL) {
+// 				if (current_cmd->args == NULL)
+// 				{
 // 					perror("Failed to allocate memory for args");
 // 					free_cmd_list(*cmd_list);
 // 					return;
 // 				}
-// 				// Set the first argument as the command itself
 // 				current_cmd->args[0] = current_cmd->command;
-// 			} else {
-// 				// Find the current length of args
+// 			}
+// 			else
+// 			{
 // 				int args_len;
 // 				for (args_len = 0; current_cmd->args[args_len] != NULL; ++args_len);
-
-// 				// Reallocate args to accommodate the new argument and the NULL terminator
 // 				char **new_args = realloc(current_cmd->args, sizeof(char*) * (args_len + 2));
 // 				if (new_args == NULL) {
 // 					perror("Failed to reallocate memory for args");
@@ -443,85 +341,185 @@ void parse_command(t_parser *parser, t_cmd_node **cmd_list, char **env)
 // 					free_cmd_list(*cmd_list);
 // 					return;
 // 				}
-// 				// NULL terminate the args array
 // 				current_cmd->args[args_len + 1] = NULL;
 // 			}
-//         }
-
-//         parser_advance(parser);
-//     }
-// 	printf("cmd_list: %p\n", *cmd_list);
-// 	printf("cmd_list->cmd->command: %s\n", (*cmd_list)->cmd->command);
-// 	printf("cmd_list->cmd->args: %s\n", (*cmd_list)->cmd->args[0]);
-// 	printf("cmd_list->cmd->args: %s\n", (*cmd_list)->cmd->args[1]);
+// 		}
+// 		parser_advance(parser);
+// 	}
+// 	if (is_builtin(current_cmd->command))
+// 	{
+// 		builtin_exec(current_cmd->args, env);
+// 		printf("builtin executed\n");
+// 		return;
+// 	}
+// 	int i = 0;
+// 	while (current_cmd->args[i] != NULL)
+// 	{
+// 		printf("current_cmd->args[%d]: %s\n", i, current_cmd->args[i]);
+// 		i++;
+// 	}
 // 	ft_execute(*cmd_list, env);
 // }
 
-// void parse_command(t_parser *parser, t_cmd_node **cmd_list, char **env) {
-//     int cmd_flag;
-//     t_cmd_node *current_node = NULL;
-//     t_cmd *current_cmd = NULL;
+#include "minishell.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
-//     cmd_flag = 1;
-// 	env = NULL;
-//     while (parser->current_token != NULL) {
-//         // When cmd_flag is set, we need to allocate a new command node
-// 				printf("ok\n");
-//         if (cmd_flag == 1) {
-//             if (*cmd_list == NULL) {
-//                 *cmd_list = malloc(sizeof(t_cmd_node));
-//                 current_node = *cmd_list;
-//             } else {
-//                 // Find the last node in the list
-//                 current_node = *cmd_list;
-//                 while (current_node->next != NULL) {
-//                     current_node = current_node->next;
-//                 }
-//                 current_node->next = malloc(sizeof(t_cmd_node));
-//                 current_node = current_node->next;
-//             }
-//             // Initialize the new command node
-//             current_node->cmd = malloc(sizeof(t_cmd));
-//             current_node->next = NULL;
-//             current_cmd = current_node->cmd;
-//             current_cmd->args = NULL; // Initialize args to NULL
-//             current_cmd->command = NULL; // Initialize command to NULL
-//             cmd_flag = 0; // Reset cmd_flag after handling a command.
-//         }
+char **env_to_char_array(t_env *env)
+{
+    int count = 0;
+    t_env_var *current = env->vars;
 
-//         // Handle CHAR_PIPE token
-//         if (parser->current_token->type == CHAR_PIPE) {
-//             cmd_flag = 1; // Set flag to handle a new command after the pipe.
-//         } else if (parser->current_token->type == WORD) {
-//             // If it's the first word, it's the command
-//             if (current_cmd->command == NULL) {
-//                 current_cmd->command = strdup(parser->current_token->value);
-//             } else {
-//                 // Otherwise, it's an argument
-//                 // Count current arguments
-//                 int arg_count = 0;
-//                 while (current_cmd->args && current_cmd->args[arg_count]) {
-//                     arg_count++;
-//                 }
-//                 // Allocate space for the new argument list
-//                 char **new_args = malloc(sizeof(char *) * (arg_count + 2)); // +1 for new arg, +1 for NULL terminator
-//                 for (int i = 0; i < arg_count; i++) {
-//                     new_args[i] = current_cmd->args[i]; // Copy existing arguments
-//                 }
-//                 new_args[arg_count] = strdup(parser->current_token->value); // Add new argument
-//                 new_args[arg_count + 1] = NULL; // NULL terminator
-//                 free(current_cmd->args); // Free old argument list
-//                 current_cmd->args = new_args; // Update command's arguments
-//             }
-//         }
+    while (current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
 
-//         parser_advance(parser); // Move to the next token
-// 		// printf("current_cmd->command: %s\n", current_cmd->command);
-//     }
-// }
+    char **envp = malloc(sizeof(char *) * (count + 1));
+    if (envp == NULL)
+    {
+        perror("malloc failed");
+        exit(1);
+    }
 
+    current = env->vars;
+    for (int i = 0; i < count; i++)
+    {
+        size_t len = strlen(current->key) + strlen(current->value) + 2;
+        envp[i] = malloc(len);
+        if (envp[i] == NULL)
+        {
+            perror("malloc failed");
+            exit(1);
+        }
+        snprintf(envp[i], len, "%s=%s", current->key, current->value);
+        current = current->next;
+    }
+    envp[count] = NULL;
 
-// void	parse(t_parser *parser, t_cmd *cmd, char **env)
-// {
-// 	parse_command(parser, cmd, env);
-// }
+    return envp;
+}
+
+void free_char_array(char **array)
+{
+    if (array)
+    {
+        for (int i = 0; array[i] != NULL; i++)
+        {
+            free(array[i]);
+        }
+        free(array);
+    }
+}
+
+void parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
+{
+    int cmd_flag = 1;
+    t_cmd_node *current_node = NULL;
+    t_cmd *current_cmd = NULL;
+
+    if (!parser || !cmd_list)
+    {
+        perror("parser or cmd_list is NULL");
+        return;
+    }
+    while (parser->current_token != NULL)
+    {
+        if (cmd_flag == 1) {
+            t_cmd_node *new_node = calloc(1, sizeof(t_cmd_node));
+            if (new_node == NULL)
+            {
+                perror("Failed to allocate memory for cmd_node");
+                free_cmd_list(*cmd_list);
+                return;
+            }
+            if (*cmd_list == NULL)
+            {
+                *cmd_list = new_node;
+            }
+            else
+            {
+                if (current_node != NULL)
+                {
+                    current_node->next = new_node;
+                }
+            }
+            current_node = new_node;
+            current_node->cmd = calloc(1, sizeof(t_cmd));
+            if (current_node->cmd == NULL)
+            {
+                perror("Failed to allocate memory for cmd");
+                free_cmd_list(*cmd_list);
+                return;
+            }
+            current_cmd = current_node->cmd;
+            cmd_flag = 0;
+        }
+        if (parser->current_token->type == CHAR_PIPE)
+        {
+            current_cmd->pipe = true;
+            cmd_flag = 1;
+        }
+        else if (parser->current_token->type == WORD)
+        {
+            if (current_cmd->command == NULL)
+            {
+                current_cmd->command = strdup(parser->current_token->value);
+                if (current_cmd->command == NULL)
+                {
+                    perror("Failed to duplicate command string");
+                    free_cmd_list(*cmd_list);
+                    return;
+                }
+                current_cmd->args = calloc(2, sizeof(char*));
+                if (current_cmd->args == NULL)
+                {
+                    perror("Failed to allocate memory for args");
+                    free_cmd_list(*cmd_list);
+                    return;
+                }
+                current_cmd->args[0] = current_cmd->command;
+            }
+            else
+            {
+                int args_len;
+                for (args_len = 0; current_cmd->args[args_len] != NULL; ++args_len);
+                char **new_args = realloc(current_cmd->args, sizeof(char*) * (args_len + 2));
+                if (new_args == NULL) {
+                    perror("Failed to reallocate memory for args");
+                    free_cmd_list(*cmd_list);
+                    return;
+                }
+                current_cmd->args = new_args;
+                current_cmd->args[args_len] = strdup(parser->current_token->value);
+                if (current_cmd->args[args_len] == NULL) {
+                    perror("Failed to duplicate argument string");
+                    free_cmd_list(*cmd_list);
+                    return;
+                }
+                current_cmd->args[args_len + 1] = NULL;
+            }
+        }
+        parser_advance(parser);
+    }
+    if (is_builtin(current_cmd->command))
+    {
+        builtin_exec(current_cmd->args, env);
+        printf("builtin executed\n");
+        return;
+    }
+    int i = 0;
+    while (current_cmd->args[i] != NULL)
+    {
+        printf("current_cmd->args[%d]: %s\n", i, current_cmd->args[i]);
+        i++;
+    }
+    char **envp = env_to_char_array(env);
+    ft_execute(*cmd_list, env);
+    free_char_array(envp);
+}
