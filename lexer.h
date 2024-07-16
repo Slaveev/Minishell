@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/12 10:36:45 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/14 11:41:07 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 // # include "minishell.h"
 
 enum token_types{
+	CHAR_DOUBLE_MORE = 256,
 	CHAR_LESS = '<',
 	CHAR_MORE = '>',
 	CHAR_PIPE = '|',

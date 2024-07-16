@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/14 11:11:40 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/15 12:02:10 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -465,6 +465,38 @@ void parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
             current_cmd->pipe = true;
             cmd_flag = 1;
         }
+		else if (parser->current_token->type == CHAR_MORE || parser->current_token->type == CHAR_DOUBLE_MORE) // Output redirection
+		{
+			if (parser->current_token->type == 256)
+				current_cmd->fd_append = true;
+			printf("current_cmd->fd_append: %d\n", current_cmd->fd_append);
+			parser_advance(parser);
+			printf("current_token->type: %d\n", parser->current_token->type);
+			if (parser->current_token->type == WORD)
+			{
+				current_cmd->fd_out = strdup(parser->current_token->value);
+				if (current_cmd->fd_out == NULL)
+				{
+					perror("Failed to duplicate output redirection path");
+					free_cmd_list(*cmd_list);
+					return;
+				}
+			}
+		}
+		else if (parser->current_token->type == CHAR_LESS) // Input redirection
+		{
+			parser_advance(parser); // Move to the file name
+			if (parser->current_token->type == WORD)
+			{
+				current_cmd->fd_in = strdup(parser->current_token->value);
+				if (current_cmd->fd_in == NULL)
+				{
+					perror("Failed to duplicate input redirection path");
+					free_cmd_list(*cmd_list);
+					return;
+				}
+			}
+		}
         else if (parser->current_token->type == WORD)
         {
             if (current_cmd->command == NULL)
@@ -507,12 +539,12 @@ void parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
         }
         parser_advance(parser);
     }
-    if (is_builtin(current_cmd->command))
-    {
-        builtin_exec(current_cmd->args, env);
-        printf("builtin executed\n");
-        return;
-    }
+    // if (is_builtin(current_cmd->command))
+    // {
+    //     builtin_exec(current_cmd->args, env);
+    //     printf("builtin executed\n");
+    //     return;
+    // }
     int i = 0;
     while (current_cmd->args[i] != NULL)
     {

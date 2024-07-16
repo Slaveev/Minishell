@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/14 11:11:18 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/15 11:02:30 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_cmd
 	char			**args;
 	char			*fd_in;
 	char			*fd_out;
+	bool			fd_append;
 	pid_t			pid;
 	bool			pipe;
 	int				status;

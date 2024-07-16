@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/12 10:36:37 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/15 11:50:33 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	get_token_type(char *value)
 		return (CHAR_LESS);
 	else if (!strcmp(value, ">"))
 		return (CHAR_MORE);
+	else if (!strcmp(value, ">>"))
+		return (CHAR_DOUBLE_MORE);
 	else if (!strcmp(value, "|"))
 		return (CHAR_PIPE);
 	else if (!strcmp(value, ";"))
@@ -284,7 +286,7 @@ t_tok *lexer_get_next_token(t_lexer *lexer)
 			case CHAR_MORE:
 				if (lexer->input[lexer->pos + 1] == CHAR_MORE)
 				{
-					token = create_token("CHAR_DOUBLE_MORE", CHAR_MORE);
+					token = create_token("CHAR_DOUBLE_MORE", CHAR_DOUBLE_MORE);
 					lexer_advance(lexer);
 				}
 				else
