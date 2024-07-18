@@ -6,54 +6,54 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:58:18 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/18 14:03:28 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:51:53 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_heredoc(t_cmd *cmd)
-{
-	char	*delimeter;
-	int		fd;
-	size_t	line_len;
-	char	*tempfile;
-	char	*line;
+// void	handle_heredoc(t_cmd *cmd)
+// {
+// 	char	*delimeter;
+// 	int		fd;
+// 	size_t	line_len;
+// 	char	*tempfile;
+// 	char	*line;
 
-	line = NULL;
-	delimeter = NULL;
-	if (cmd->heredock)
-		delimeter = cmd->fd_heredoc;
-	if (!delimeter)
-		return ;
-	tempfile = "/tmp/minishell_heredoc";
-	fd = open(tempfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		ft_error("Failed to open heredoc file", 1);
-	while (1)
-	{
-		write(1, "> ", 2);
-		line = get_next_line(0);
-		line_len = strlen(line);
-		if (line[line_len - 1] == '\n')
-		{
-			line[line_len - 1] = '\0';
-			line_len--;
-		}
-		if (strcmp(line, delimeter) == 0)
-		{
-			free(line);
-			line = NULL;
-			break ;
-		}
-		write(fd, line, line_len);
-		write(fd, "\n", 1);
-		free(line);
-		line = NULL;
-	}
-	close(fd);
-	cmd->fd_in = strdup(tempfile);
-}
+// 	line = NULL;
+// 	delimeter = NULL;
+// 	if (cmd->heredock)
+// 		delimeter = cmd->fd_heredoc;
+// 	if (!delimeter)
+// 		return ;
+// 	tempfile = "/tmp/minishell_heredoc";
+// 	fd = open(tempfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (fd == -1)
+// 		ft_error("Failed to open heredoc file", 1);
+// 	while (1)
+// 	{
+// 		write(1, "> ", 2);
+// 		line = get_next_line(0);
+// 		line_len = strlen(line);
+// 		if (line[line_len - 1] == '\n')
+// 		{
+// 			line[line_len - 1] = '\0';
+// 			line_len--;
+// 		}
+// 		if (strcmp(line, delimeter) == 0)
+// 		{
+// 			free(line);
+// 			line = NULL;
+// 			break ;
+// 		}
+// 		write(fd, line, line_len);
+// 		write(fd, "\n", 1);
+// 		free(line);
+// 		line = NULL;
+// 	}
+// 	close(fd);
+// 	cmd->fd_in = strdup(tempfile);
+// }
 
 void	handle_redirections(t_exec_context *context)
 {

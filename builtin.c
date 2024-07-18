@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:32:56 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/14 11:09:08 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:23:16 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,6 @@ void handle_pwd(void) {
     else
         perror("getcwd() error");
 }
-
-// void handle_cd(char **input) {
-//     char *dir;
-//     char new_path[1024];
-
-//     dir = input[1];
-//     while (dir != NULL && (!strcmp(dir, " ") || !strcmp(dir, "\t")))
-//         dir = *(++input);
-//     if (dir == NULL || strlen(dir) == 0)
-//         dir = getenv("HOME");
-//     if (chdir(dir) != 0)
-//         perror("chdir() error");
-//     else if (getcwd(new_path, sizeof(new_path)) == NULL)
-//         perror("getcwd() error");
-// }
 
 void handle_cd(char **input, t_env *env)
 {

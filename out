@@ -1,31 +1,3 @@
-total 520
--rw-r--r--   1 dslaveev  2023_heilbronn    569 Jul 14 11:12 Makefile
-drwxr-xr-x   3 dslaveev  2023_heilbronn    102 Jun 17 13:09 build
--rw-r--r--   1 dslaveev  2023_heilbronn   3725 Jul 14 11:09 builtin.c
--rw-r--r--   1 dslaveev  2023_heilbronn   1494 Jul 14 11:09 builtin.h
--rw-r--r--   1 dslaveev  2023_heilbronn   7100 Jul 16 12:16 builtin.o
--rw-r--r--   1 dslaveev  2023_heilbronn   6311 Jun 21 16:59 combine.c
--rw-r--r--   1 dslaveev  2023_heilbronn   3076 Jul 14 11:10 env.c
--rw-r--r--   1 dslaveev  2023_heilbronn   6132 Jul 16 12:16 env.o
--rw-r--r--   1 dslaveev  2023_heilbronn  10311 Jul 18 13:18 exec.c
--rw-r--r--   1 dslaveev  2023_heilbronn  11880 Jul 18 13:23 exec.o
--rw-r--r--   1 dslaveev  2023_heilbronn   9759 Jul 18 12:47 expans.c
--rw-r--r--   1 dslaveev  2023_heilbronn  10087 Jul 15 11:50 lexer.c
--rw-r--r--   1 dslaveev  2023_heilbronn   2458 Jul 14 11:41 lexer.h
--rw-r--r--   1 dslaveev  2023_heilbronn  14484 Jul 16 12:16 lexer.o
-drwxr-xr-x  92 dslaveev  2023_heilbronn   3128 Jul 16 12:16 libft
--rw-r--r--   1 dslaveev  2023_heilbronn   2476 Jul 17 11:44 main.c
--rw-r--r--   1 dslaveev  2023_heilbronn   6196 Jul 17 11:46 main.o
--rwxr-xr-x   1 dslaveev  2023_heilbronn  78464 Jul 18 13:23 minishell
--rw-r--r--   1 dslaveev  2023_heilbronn   2834 Jul 16 13:49 minishell.h
--rw-r--r--   1 dslaveev  2023_heilbronn      0 Jul 18 13:23 out
--rw-r--r--   1 dslaveev  2023_heilbronn  16077 Jul 17 11:46 parser.c
--rw-r--r--   1 dslaveev  2023_heilbronn   1527 Jul 14 11:11 parser.h
--rw-r--r--   1 dslaveev  2023_heilbronn  14168 Jul 17 11:46 parser.o
--rw-r--r--   1 dslaveev  2023_heilbronn   1944 Jul 12 10:37 signals.c
--rw-r--r--   1 dslaveev  2023_heilbronn    680 Jul 16 12:16 signals.o
--rw-r--r--   1 dslaveev  2023_heilbronn   2027 Jul 12 10:37 utils.c
--rw-r--r--   1 dslaveev  2023_heilbronn   5132 Jul 16 12:16 utils.o
 Makefile
 build
 builtin.c
@@ -36,7 +8,11 @@ env.c
 env.o
 exec.c
 exec.o
+exec_utils.c
+exec_utils.o
 expans.c
+heredoc.c
+heredoc.o
 lexer.c
 lexer.h
 lexer.o
@@ -49,33 +25,8 @@ out
 parser.c
 parser.h
 parser.o
-signals.c
-signals.o
-utils.c
-utils.o
-Makefile
-build
-builtin.c
-builtin.h
-builtin.o
-combine.c
-env.c
-env.o
-exec.c
-exec.o
-expans.c
-lexer.c
-lexer.h
-lexer.o
-libft
-main.c
-main.o
-minishell
-minishell.h
-out
-parser.c
-parser.h
-parser.o
+redir.c
+redir.o
 signals.c
 signals.o
 utils.c
@@ -93,6 +44,8 @@ exec.o
 exec_utils.c
 exec_utils.o
 expans.c
+heredoc.c
+heredoc.o
 lexer.c
 lexer.h
 lexer.o

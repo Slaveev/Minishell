@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/12 10:37:29 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:45:39 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,18 @@ char	*get_cmd_path(char *cmd, char **env)
 
 int	is_builtin(char *command)
 {
-	char	*builtins[] = {"cd", "pwd", "echo", "exit", "env", "export", "unset"};
-	int		i;
-	int		num_builtins;
-
 	if (command == NULL)
 		return (0);
-	i = 0;
-	num_builtins = sizeof(builtins) / sizeof(char *);
-	while (i < num_builtins)
+	if (strcmp(command, "cd") == 0
+		|| strcmp(command, "pwd") == 0
+		|| strcmp(command, "echo") == 0
+		|| strcmp(command, "exit") == 0
+		|| strcmp(command, "env") == 0
+		|| strcmp(command, "export") == 0
+		|| strcmp(command, "unset") == 0)
 	{
-		if (strcmp(command, builtins[i]) == 0)
-			return (1);
-		i++;
+		printf("builtin\n");
+		return (1);
 	}
 	return (0);
 }

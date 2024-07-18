@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:41:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/18 14:03:51 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:27:14 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-
 
 void	execute_builtin_command(t_cmd *cmd, t_env *env, t_fds *fds)
 {

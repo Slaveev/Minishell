@@ -6,14 +6,14 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/18 14:04:17 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:34:16 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <signal.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -70,45 +70,43 @@ typedef struct s_cmd_node
 
 typedef struct s_env_var
 {
-	char *key;
-	char *value;
-	struct s_env_var *next;
-}	t_env_var;
+	char				*key;
+	char				*value;
+	struct s_env_var	*next;
+}						t_env_var;
 
 typedef struct s_env
 {
-	t_env_var *vars;
-	char *curr_dir;
-} t_env;
+	t_env_var	*vars;
+	char		*curr_dir;
+}				t_env;
 
 typedef struct s_fds
 {
 	int	fd_input;
-    int	fd_output;
+	int	fd_output;
 	int	pipe_fd[2];
 }		t_fds;
 
-typedef struct s_exec_context {
-    t_cmd *cmd;
-    t_env *env;
-    t_fds fds;
-} t_exec_context;
-
-
+typedef struct s_exec_context
+{
+	t_cmd	*cmd;
+	t_env	*env;
+	t_fds	fds;
+}			t_exec_context;
 
 char	*expander_env(char *arg, char **env);
 void	builtin_exec(char **input, t_env *env);
 void	print_token(t_tok *token);
-void ft_execute(t_cmd_node *cmd_list, t_env *env);
-void free_cmd_list(t_cmd_node *cmd_list);
-int	is_builtin(char *command);
+void	ft_execute(t_cmd_node *cmd_list, t_env *env);
+void	free_cmd_list(t_cmd_node *cmd_list);
+int		is_builtin(char *command);
 void	ft_error(const char *msg, int status);
-void free_char_array(char **array);
-char **env_to_char_array(t_env *env);
+void	free_char_array(char **array);
+char	**env_to_char_array(t_env *env);
 
 void	handle_env(t_env *env);
-void handle_cd(char **input, t_env *env);
-
+void	handle_cd(char **input, t_env *env);
 
 void	init_env(t_env *env, char **environ);
 void	set_env_var(t_env *env, const char *key, const char *value);
@@ -128,19 +126,11 @@ void	handle_heredoc(t_cmd *cmd);
 void	redirect_and_close(int oldfd, int newfd);
 void	restore_fd(int saved_fd, int target_fd);
 
+int		open_heredoc_file(char *tempfile);
+void	write_line_to_file(int fd, char *line, size_t line_len);
+char	*prompt_and_read_line(char *delimiter);
+void	handle_heredoc(t_cmd *cmd);
+
+void	free_env(t_env *env);
+
 #endif
-
-// parsecmd
-//	parsepipe
-//	parseredir
-//	parseback
-//	parseexec
-// 	parsebllock
-// nullterminate
-// gettoken
-
-// main
-// getcmd
-// runcmd
-// panic
-// fork1

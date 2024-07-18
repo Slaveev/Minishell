@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/17 11:44:53 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:25:40 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int main(int argc, char **argv, char **env) {
 	while (1)
 	{
 		input = readline(prompt);
-        if (input == NULL || *input == '\0' || is_only_whitespace(input))
+		if (input == NULL || *input == '\0' || is_only_whitespace(input))
 		{
 			free(input);
 			continue;

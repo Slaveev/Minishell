@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:15:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/14 11:10:01 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:22:41 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,16 @@
 
 void	init_env(t_env *env, char **environ)
 {
-	int i;
-	char **splited;
-	char *key;
-	char *value;
+	int		i;
+	char	**splited;
+	char	*key;
+	char	*value;
 
 	env->vars = NULL;
 	env->curr_dir = NULL;
 	i = 0;
 	if (environ == NULL)
-	{
-		printf("f thi shi\n");
 		return ;
-	}
 	while (environ[i] != NULL)
 	{
 		splited = ft_split(environ[i], '=');
@@ -69,7 +66,6 @@ void	set_env_var(t_env *env, const char *key, const char *value)
 	new_var->next = env->vars;
 	env->vars = new_var;
 }
-
 
 void	unset_env_var(t_env *env, const char *key)
 {
@@ -120,21 +116,4 @@ void	change_dir_exec(t_env *env, const char *path)
 	{
 		perror("chdir error: ");
 	}
-}
-
-void	free_env(t_env *env)
-{
-	t_env_var *current;
-	t_env_var *next;
-
-	current = env->vars;
-	while (current != NULL)
-	{
-		next = current->next;
-		free(current->key);
-		free(current->value);
-		free(current);
-		current = next;
-	}
-	free(env->curr_dir);
 }
