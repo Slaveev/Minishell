@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/18 13:35:49 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:04:17 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,17 @@ void	unset_env_var(t_env *env, const char *key);
 char	*get_env_var(t_env *env, const char *key);
 void	change_dir_exec(t_env *env, const char *path);
 void	free_env(t_env *env);
+
+char	*find_command_in_path(char *command, t_env *env);
+void	open_output_file(t_cmd *cmd, t_fds *fds);
+void	open_input_file(t_cmd *cmd, t_fds *fds);
+void	handle_pipe_creation(t_cmd *cmd, t_fds *fds);
+void	cleanup(t_fds *fds, pid_t pid, int *cmd_status);
+
+void	handle_redirections(t_exec_context *context);
+void	handle_heredoc(t_cmd *cmd);
+void	redirect_and_close(int oldfd, int newfd);
+void	restore_fd(int saved_fd, int target_fd);
 
 #endif
 
