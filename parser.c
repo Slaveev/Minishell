@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/15 12:02:10 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/17 11:46:07 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -417,6 +417,22 @@ void free_char_array(char **array)
     }
 }
 
+bool	heredoc_check(t_parser *parser, t_cmd *cmd)
+{
+	cmd->heredock = false;
+	if (parser->current_token->type == CHAR_LESS)
+	{
+		parser_advance(parser);
+		if (parser->current_token->type == CHAR_LESS)
+		{
+			printf("heredoc\n");
+			cmd->heredock = true;
+		}
+	}
+	printf("cmd->heredock: %d\n", cmd->heredock);
+	return (cmd->heredock);
+}
+
 void parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
 {
     int cmd_flag = 1;
@@ -469,9 +485,9 @@ void parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
 		{
 			if (parser->current_token->type == 256)
 				current_cmd->fd_append = true;
-			printf("current_cmd->fd_append: %d\n", current_cmd->fd_append);
+			// printf("current_cmd->fd_append: %d\n", current_cmd->fd_append);
 			parser_advance(parser);
-			printf("current_token->type: %d\n", parser->current_token->type);
+			// printf("current_token->type: %d\n", parser->current_token->type);
 			if (parser->current_token->type == WORD)
 			{
 				current_cmd->fd_out = strdup(parser->current_token->value);
@@ -485,15 +501,24 @@ void parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
 		}
 		else if (parser->current_token->type == CHAR_LESS) // Input redirection
 		{
-			parser_advance(parser); // Move to the file name
-			if (parser->current_token->type == WORD)
+			if (heredoc_check(parser, current_cmd))
 			{
-				current_cmd->fd_in = strdup(parser->current_token->value);
-				if (current_cmd->fd_in == NULL)
+				parser_advance(parser); // Move to the delimiter
+				current_cmd->fd_heredoc = strdup(parser->current_token->value);
+				// printf("current_cmd->fd_heredoc: %s\n", current_cmd->fd_heredoc);
+			}
+			else
+			{
+				parser_advance(parser); // Move to the file name
+				if (parser->current_token->type == WORD)
 				{
-					perror("Failed to duplicate input redirection path");
-					free_cmd_list(*cmd_list);
-					return;
+					current_cmd->fd_in = strdup(parser->current_token->value);
+					if (current_cmd->fd_in == NULL)
+					{
+						perror("Failed to duplicate input redirection path");
+						free_cmd_list(*cmd_list);
+						return;
+					}
 				}
 			}
 		}
@@ -545,12 +570,12 @@ void parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
     //     printf("builtin executed\n");
     //     return;
     // }
-    int i = 0;
-    while (current_cmd->args[i] != NULL)
-    {
-        printf("current_cmd->args[%d]: %s\n", i, current_cmd->args[i]);
-        i++;
-    }
+    // int i = 0;
+    // while (current_cmd->args[i] != NULL)
+    // {
+    //     printf("current_cmd->args[%d]: %s\n", i, current_cmd->args[i]);
+    //     i++;
+    // }
     char **envp = env_to_char_array(env);
     ft_execute(*cmd_list, env);
     free_char_array(envp);

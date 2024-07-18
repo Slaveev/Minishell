@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/15 11:02:30 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:35:49 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ typedef struct s_cmd
 	char			**args;
 	char			*fd_in;
 	char			*fd_out;
+	char			*fd_heredoc;
 	bool			fd_append;
+	bool			heredock;
 	pid_t			pid;
 	bool			pipe;
 	int				status;
@@ -78,6 +80,21 @@ typedef struct s_env
 	t_env_var *vars;
 	char *curr_dir;
 } t_env;
+
+typedef struct s_fds
+{
+	int	fd_input;
+    int	fd_output;
+	int	pipe_fd[2];
+}		t_fds;
+
+typedef struct s_exec_context {
+    t_cmd *cmd;
+    t_env *env;
+    t_fds fds;
+} t_exec_context;
+
+
 
 char	*expander_env(char *arg, char **env);
 void	builtin_exec(char **input, t_env *env);
