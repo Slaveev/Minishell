@@ -22,7 +22,8 @@ SRCS = main.c \
 		$(BUILTIN_DIR)/builtin.c $(SIGNALS_DIR)/signals.c $(EXEC_DIR)/exec.c \
 		$(UTILS_DIR)/utils.c $(ENVIRON_DIR)/env.c $(EXEC_DIR)/exec_utils.c \
 		$(REDIR_DIR)/redir.c $(HEREDOC_DIR)/heredoc.c $(FREE_DIR)/free.c \
-		$(ENVIRON_DIR)/env_help.c $(BUILTIN_DIR)/builtins_utils.c
+		$(ENVIRON_DIR)/env_help.c $(BUILTIN_DIR)/builtins_utils.c \
+		$(UTILS_DIR)/utils1.c  $(PARSER_DIR)/parser_utils.c\
 
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft

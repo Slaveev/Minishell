@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:50:57 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:33:15 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:10:24 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ char	*find_command_in_path(char *command, t_env *env)
 	t_env_var	*current;
 	char		*path;
 	char		*path_env;
-	char		*token;
-	char		full_path[1024];
+	char		*result;
 
 	path_env = NULL;
 	current = env->vars;
@@ -34,16 +33,11 @@ char	*find_command_in_path(char *command, t_env *env)
 	if (path_env == NULL)
 		return (NULL);
 	path = strdup(path_env);
-	token = strtok(path, ":");
-	while (token != NULL)
-	{
-		snprintf(full_path, sizeof(full_path), "%s/%s", token, command);
-		if (access(full_path, X_OK) == 0)
-			return (free(path), strdup(full_path));
-		token = strtok(NULL, ":");
-	}
+	if (path == NULL)
+		ft_error("Failed to allocate memory", 1);
+	result = search_command_in_path(path, command);
 	free(path);
-	return (NULL);
+	return (result);
 }
 
 void	open_output_file(t_cmd *cmd, t_fds *fds)

@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:17:08 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:06:53 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include "../libft/libft.h"
-# include "lexer.h"
-// # include "parser.h"
+# include "../includes/lexer.h"
+// # include "../in"
 # include "builtin.h"
 # include <signal.h>
 # include <stdbool.h>
@@ -95,6 +95,13 @@ typedef struct s_exec_context
 	t_fds	fds;
 }			t_exec_context;
 
+typedef struct s_shell_env
+{
+	t_env		env;
+	t_lexer		lexer;
+	t_cmd_node	*cmd;
+}				t_shell_env;
+
 char	*expander_env(char *arg, char **env);
 void	builtin_exec(char **input, t_env *env);
 void	print_token(t_tok *token);
@@ -132,5 +139,8 @@ char	*prompt_and_read_line(char *delimiter);
 void	handle_heredoc(t_cmd *cmd);
 
 void	free_env(t_env *env);
+int		is_only_whitespace(const char *str);
+
+char	*search_command_in_path(char *path, char *command);
 
 #endif

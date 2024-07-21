@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:17:17 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:03:30 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ char	*set_prompt(char *input)
 	return (prompt);
 }
 
-int	is_only_whitespace(const char *str)
+int	process_input(char *input)
 {
-	while (*str)
+	if (input == NULL || *input == '\0' || is_only_whitespace(input))
 	{
-		if (!isspace((unsigned char)*str))
-			return (0);
-		str++;
+		free(input);
+		return (0);
 	}
 	return (1);
 }
@@ -46,29 +45,24 @@ int	main(int argc, char **argv, char **env)
 {
 	char		*prompt;
 	char		*input;
-	t_lexer		lexer;
+	t_shell_env	shell;
 	t_parser	*parser;
-	t_cmd_node	*cmd;
-	t_env		envp;
 
-	cmd = NULL;
 	(void)argv;
 	(void)argc;
-	init_env(&envp, env);
-	prompt = set_prompt("balkanshell$ ");
+	init_env(&shell.env, env);
 	while (1)
 	{
+		prompt = set_prompt("balkanshell$ ");
 		input = readline(prompt);
-		if (input == NULL || *input == '\0' || is_only_whitespace(input))
-		{
-			free(input);
+		free(prompt);
+		if (!process_input(input))
 			continue ;
-		}
-		init_lexer(&lexer, input);
-		parser = init_parser(&lexer);
-		parse_command(parser, &cmd, &envp);
-		free_cmd_list(cmd);
-		cmd = NULL;
+		init_lexer(&shell.lexer, input);
+		parser = init_parser(&shell.lexer);
+		parse_command(parser, &shell.cmd, &shell.env);
+		free_cmd_list(shell.cmd);
+		shell.cmd = NULL;
 		free(input);
 	}
 	free(prompt);
