@@ -6,19 +6,14 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/18 15:25:40 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:17:17 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "parser.h"
+#include "includes/minishell.h"
+#include "includes/parser.h"
 
 extern t_sig	g_sig;
-
-void print_token(t_tok *token)
-{
-	printf("type: %d, value: %s\n", token->type, token->value);
-}
 
 char	*set_prompt(char *input)
 {
@@ -36,31 +31,10 @@ char	*set_prompt(char *input)
 	return (prompt);
 }
 
-// char	*expander_env(char *arg, char **env)
-// {
-// 	char	*env_var;
-
-// 	env = NULL;
-// 	if (arg[0] == '$')
-// 	{
-// 		if (arg[1] == '?')
-// 		{
-// 			printf("exit status\n");
-// 			// return (ft_itoa(g_sig.exstatus));
-// 		}
-// 		else
-// 		{
-// 			env_var = getenv(arg + 1);
-// 			if (env_var != NULL)
-// 				return (ft_strdup(env_var));
-// 		}
-// 	}
-// 	return (ft_strdup(arg));
-// }
-
-int is_only_whitespace(const char *str)
+int	is_only_whitespace(const char *str)
 {
-	while (*str) {
+	while (*str)
+	{
 		if (!isspace((unsigned char)*str))
 			return (0);
 		str++;
@@ -68,20 +42,18 @@ int is_only_whitespace(const char *str)
 	return (1);
 }
 
-#include "parser.h"
+int	main(int argc, char **argv, char **env)
+{
+	char		*prompt;
+	char		*input;
+	t_lexer		lexer;
+	t_parser	*parser;
+	t_cmd_node	*cmd;
+	t_env		envp;
 
-int main(int argc, char **argv, char **env) {
-	char *prompt;
-	char *input;
-	t_lexer lexer;
-	t_parser *parser;
-	t_cmd_node *cmd = NULL;
-	t_env envp;
-
+	cmd = NULL;
 	(void)argv;
 	(void)argc;
-	// if (argc > 1)
-	// 	return (printf("Error: too many arguments\n"), 1);
 	init_env(&envp, env);
 	prompt = set_prompt("balkanshell$ ");
 	while (1)
@@ -90,7 +62,7 @@ int main(int argc, char **argv, char **env) {
 		if (input == NULL || *input == '\0' || is_only_whitespace(input))
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		init_lexer(&lexer, input);
 		parser = init_parser(&lexer);

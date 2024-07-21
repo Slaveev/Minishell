@@ -1,7 +1,29 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wextra -Werror -Wall -std=c99 -g
-SRCS = main.c lexer.c parser.c builtin.c signals.c exec.c utils.c env.c exec_utils.c redir.c heredoc.c free.c parser_init.c env_help.c
+
+# Subdirectories
+SRC_DIR = srcs
+LEXER_DIR = $(SRC_DIR)/lexer
+PARSER_DIR = $(SRC_DIR)/parser
+EXEC_DIR = $(SRC_DIR)/exec
+BUILTIN_DIR = $(SRC_DIR)/builtin
+SIGNALS_DIR = $(SRC_DIR)/signals
+UTILS_DIR = $(SRC_DIR)/utils
+ENVIRON_DIR = $(SRC_DIR)/environ
+HEREDOC_DIR = $(SRC_DIR)/heredoc
+REDIR_DIR = $(SRC_DIR)/redir
+FREE_DIR = $(SRC_DIR)/free
+
+# Source files
+SRCS = main.c \
+		$(LEXER_DIR)/lexer.c $(LEXER_DIR)/lexer_helper.c $(LEXER_DIR)/lexer_utils.c \
+		$(PARSER_DIR)/parser.c $(PARSER_DIR)/parser_init.c \
+		$(BUILTIN_DIR)/builtin.c $(SIGNALS_DIR)/signals.c $(EXEC_DIR)/exec.c \
+		$(UTILS_DIR)/utils.c $(ENVIRON_DIR)/env.c $(EXEC_DIR)/exec_utils.c \
+		$(REDIR_DIR)/redir.c $(HEREDOC_DIR)/heredoc.c $(FREE_DIR)/free.c \
+		$(ENVIRON_DIR)/env_help.c $(BUILTIN_DIR)/builtins_utils.c
+
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
 
