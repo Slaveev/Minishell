@@ -6,13 +6,14 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/22 11:19:39 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:38:59 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-void	init_cmd_and_arg(t_parser *parser, t_cmd *current_cmd, t_cmd_node **cmd_list)
+void	init_cmd_and_arg(t_parser *parser, t_cmd *current_cmd,
+		t_cmd_node **cmd_list)
 {
 	current_cmd->command = strdup(parser->current_token->value);
 	if (current_cmd->command == NULL)
@@ -31,7 +32,8 @@ void	init_cmd_and_arg(t_parser *parser, t_cmd *current_cmd, t_cmd_node **cmd_lis
 	current_cmd->args[0] = current_cmd->command;
 }
 
-void	add_together(t_parser *parser, t_cmd *current_cmd, t_cmd_node **cmd_list)
+void	add_together(t_parser *parser, t_cmd *current_cmd,
+		t_cmd_node **cmd_list)
 {
 	int		args_len;
 	char	**resulted_args;
@@ -39,7 +41,7 @@ void	add_together(t_parser *parser, t_cmd *current_cmd, t_cmd_node **cmd_list)
 	args_len = 0;
 	while (current_cmd->args[args_len] != NULL)
 		++args_len;
-	resulted_args = realloc(current_cmd->args, sizeof(char*) * (args_len + 2));
+	resulted_args = realloc(current_cmd->args, sizeof(char *) * (args_len + 2));
 	if (resulted_args == NULL)
 	{
 		perror("Failed to reallocate memory for args");
@@ -61,9 +63,41 @@ void	handle_command_and_args(t_parser *parser, t_cmd *current_cmd,
 		t_cmd_node **cmd_list)
 {
 	if (current_cmd->command == NULL)
+	{
+		printf("ok\n");
 		init_cmd_and_arg(parser, current_cmd, cmd_list);
+	}
 	else
 		add_together(parser, current_cmd, cmd_list);
+}
+
+void	proccess_command(t_parser *parser, t_manager *cmd_mgmt, t_env *env)
+{
+	int		cmd_flag;
+	char	**envp;
+
+	cmd_flag = 1;
+	while (parser->current_token != NULL)
+	{
+		if (cmd_flag == 1)
+			initialize_cmd_node(parser, cmd_mgmt, &cmd_flag);
+		if (parser->current_token->type == CHAR_PIPE)
+			handle_pipe(*(cmd_mgmt->current_cmd), &cmd_flag);
+		else if (parser->current_token->type == CHAR_MORE
+			|| parser->current_token->type == CHAR_DOUBLE_MORE)
+			handle_output_redirection(parser, *(cmd_mgmt->current_cmd),
+				cmd_mgmt->cmd_list);
+		else if (parser->current_token->type == CHAR_LESS)
+			handle_input_redirection(parser, *(cmd_mgmt->current_cmd),
+				cmd_mgmt->cmd_list);
+		else if (parser->current_token->type == WORD)
+			handle_command_and_args(parser, *(cmd_mgmt->current_cmd),
+				cmd_mgmt->cmd_list);
+		parser_advance(parser);
+	}
+	envp = env_to_char_array(env);
+	ft_execute(*(cmd_mgmt->cmd_list), env);
+	free_char_array(envp);
 }
 
 void	parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
@@ -71,7 +105,6 @@ void	parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
 	int			cmd_flag;
 	t_cmd_node	*current_node;
 	t_cmd		*current_cmd;
-	char		**envp;
 	t_manager	cmd_mgmt;
 
 	cmd_flag = 1;
@@ -80,29 +113,5 @@ void	parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
 	cmd_mgmt.cmd_list = cmd_list;
 	cmd_mgmt.current_node = &current_node;
 	cmd_mgmt.current_cmd = &current_cmd;
-	while (parser->current_token != NULL)
-	{
-		if (cmd_flag == 1)
-			initialize_cmd_node(parser, &cmd_mgmt ,&cmd_flag);
-		switch (parser->current_token->type)
-		{
-			case CHAR_PIPE:
-				handle_pipe(current_cmd, &cmd_flag);
-				break ;
-			case CHAR_MORE:
-			case CHAR_DOUBLE_MORE:
-				handle_output_redirection(parser, current_cmd, cmd_list);
-				break ;
-			case CHAR_LESS:
-				handle_input_redirection(parser, current_cmd, cmd_list);
-				break ;
-			case WORD:
-				handle_command_and_args(parser, current_cmd, cmd_list);
-				break ;
-		}
-		parser_advance(parser);
-	}
-	envp = env_to_char_array(env);
-	ft_execute(*cmd_list, env);
-	free_char_array(envp);
+	proccess_command(parser, &cmd_mgmt, env);
 }

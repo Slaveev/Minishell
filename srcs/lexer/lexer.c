@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/23 13:45:39 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:17:49 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	init_lexer(t_lexer *lexer, char *input)
 	lexer->token = NULL;
 	lexer->token_count = 0;
 }
-
-
 
 t_tok	*handle_more(t_lexer *lexer)
 {
