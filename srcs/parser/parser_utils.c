@@ -6,13 +6,13 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:43:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:55:39 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:21:46 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-t_cmd_node *create_cmd_node(void)
+t_cmd_node	*create_cmd_node(void)
 {
 	t_cmd_node	*node;
 
@@ -29,7 +29,7 @@ t_cmd_node *create_cmd_node(void)
 	return (node);
 }
 
-void initialize_cmd_node(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag)
+void	initialize_cmd_node(t_parser *parser, t_manager *cmd_mng, int *cmd_flag)
 {
 	t_cmd_node	*new_node;
 
@@ -38,17 +38,16 @@ void initialize_cmd_node(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag)
 	if (new_node == NULL)
 	{
 		perror("Failed to allocate memory for cmd_node");
-		if (cmd_mgmt->cmd_list)
-			free_cmd_list(*(cmd_mgmt->cmd_list));
+		if (cmd_mng->cmd_list)
+			free_cmd_list(*(cmd_mng->cmd_list));
 		return ;
 	}
-	printf("ok\n");
-	if (*(cmd_mgmt->cmd_list) == NULL)
-		*(cmd_mgmt->cmd_list) = new_node;
-	else if (*(cmd_mgmt->current_node) != NULL)
-		(*(cmd_mgmt->current_node))->next = new_node;
-	*(cmd_mgmt->current_node) = new_node;
-	*(cmd_mgmt->current_cmd) = new_node->cmd;
+	if (*(cmd_mng->cmd_list) == NULL)
+		*(cmd_mng->cmd_list) = new_node;
+	else if (*(cmd_mng->current_node) != NULL)
+		(*(cmd_mng->current_node))->next = new_node;
+	*(cmd_mng->current_node) = new_node;
+	*(cmd_mng->current_cmd) = new_node->cmd;
 	*cmd_flag = 0;
 }
 

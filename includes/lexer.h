@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/19 14:19:10 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/22 12:04:49 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,16 @@ t_tok	*lexer_dash(t_lexer *lexer);
 t_tok	*lexer_token_name(t_lexer *lexer);
 t_tok	*process_token(t_lexer *lexer, char end_char,
 			int token_type, int quotes);
+
+t_tok	*handle_quote(t_lexer *lexer);
+t_tok	*handle_double_quote(t_lexer *lexer);
+t_tok	*handle_identifier(t_lexer *lexer);
+t_tok	*handle_dash(t_lexer *lexer);
+t_tok	*handle_token_name(t_lexer *lexer);
+t_tok	*handle_char_more(t_lexer *lexer);
+t_tok	*handle_space(t_lexer *lexer);
+t_tok	*handle_less(t_lexer *lexer);
+t_tok	*handle_pipe_tok(t_lexer *lexer);
+t_tok	*handle_open_paren(t_lexer *lexer);
 
 #endif

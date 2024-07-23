@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:44:04 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/22 11:19:39 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,18 @@ void	parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
 	t_cmd_node	*current_node;
 	t_cmd		*current_cmd;
 	char		**envp;
+	t_manager	cmd_mgmt;
 
 	cmd_flag = 1;
 	current_node = NULL;
 	current_cmd = NULL;
+	cmd_mgmt.cmd_list = cmd_list;
+	cmd_mgmt.current_node = &current_node;
+	cmd_mgmt.current_cmd = &current_cmd;
 	while (parser->current_token != NULL)
 	{
 		if (cmd_flag == 1)
-			initialize_cmd_node(parser, cmd_list, &current_node,
-				&current_cmd, &cmd_flag);
+			initialize_cmd_node(parser, &cmd_mgmt ,&cmd_flag);
 		switch (parser->current_token->type)
 		{
 			case CHAR_PIPE:

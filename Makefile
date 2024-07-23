@@ -24,6 +24,7 @@ SRCS = main.c \
 		$(REDIR_DIR)/redir.c $(HEREDOC_DIR)/heredoc.c $(FREE_DIR)/free.c \
 		$(ENVIRON_DIR)/env_help.c $(BUILTIN_DIR)/builtins_utils.c \
 		$(UTILS_DIR)/utils1.c  $(PARSER_DIR)/parser_utils.c\
+		$(LEXER_DIR)/lexer_process.c $(LEXER_DIR)/lexer_processes.c \
 
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft

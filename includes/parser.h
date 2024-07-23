@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:51:59 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:56:54 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int			is_builtin(char *command);
 bool		heredoc_check(t_parser *parser, t_cmd *cmd);
 
 t_cmd_node	*create_cmd_node(void);
-void initialize_cmd_node(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag);
+void		initialize_cmd_node(t_parser *parser, t_manager *cmd_mgmt,
+				int *cmd_flag);
 // void		initialize_cmd_node(t_parser *parser, t_cmd_node **cmd_list,
 // 				t_cmd_node **current_node, t_cmd **current_cmd, int *cmd_flag);
 void		handle_pipe(t_cmd *current_cmd, int *cmd_flag);
