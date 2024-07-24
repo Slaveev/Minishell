@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:32:26 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:46:30 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	is_builtin(char *command)
 		|| strcmp(command, "export") == 0
 		|| strcmp(command, "unset") == 0)
 	{
-		printf("builtin\n");
 		return (1);
 	}
 	return (0);

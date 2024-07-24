@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:15:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:33:07 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:56:24 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	set_env_var(t_env *env, const char *key, const char *value)
 	new_var = malloc(sizeof(t_env_var));
 	if (new_var == NULL)
 	{
-		printf("Error: malloc failed\n");
+		ft_putendl_fd("Error: malloc failed", 2);
 		exit(1);
 	}
 	new_var->key = ft_strdup(key);
@@ -115,7 +115,5 @@ void	change_dir_exec(t_env *env, const char *path)
 			perror("getcwd error: ");
 	}
 	else
-	{
 		perror("chdir error: ");
-	}
 }

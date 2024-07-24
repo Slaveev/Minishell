@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/23 14:38:59 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/23 14:43:04 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	handle_command_and_args(t_parser *parser, t_cmd *current_cmd,
 {
 	if (current_cmd->command == NULL)
 	{
-		printf("ok\n");
 		init_cmd_and_arg(parser, current_cmd, cmd_list);
 	}
 	else

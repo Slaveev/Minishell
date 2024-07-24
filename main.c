@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:03:30 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:06:29 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ int	process_input(char *input)
 	return (1);
 }
 
+void	leaks(void)
+{
+	system("leaks minishell");
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char		*prompt;
@@ -51,6 +56,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init_env(&shell.env, env);
+	atexit(leaks);
 	while (1)
 	{
 		prompt = set_prompt("balkanshell$ ");
@@ -66,4 +72,8 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 	}
 	free(prompt);
+	free(input);
+	free_char_array(env_to_char_array(&shell.env));
+	free_env(&shell.env);
+	return (0);
 }

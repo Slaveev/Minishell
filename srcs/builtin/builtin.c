@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:32:56 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:30:40 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:09:44 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,20 @@ void	print_env_vars(t_env *env)
 
 void	handle_export(char **input, t_env *env)
 {
-	char	**key_value;
+	char	*key;
+	char	*value;
 
 	if (input[1] == NULL)
 		print_env_vars(env);
 	else
 	{
-		key_value = ft_split(input[1], '=');
-		if (key_value[0] && key_value[1])
-			set_env_var(env, key_value[0], key_value[1]);
+		key = input[1];
+		if (input[2] != NULL && input[2][0] == '=')
+			value = &input[2][1];
+		else
+			value = "";
+		if (key && value)
+			set_env_var(env, key, value);
 	}
 }
 
