@@ -41,11 +41,6 @@ int	process_input(char *input)
 	return (1);
 }
 
-void	leaks(void)
-{
-	system("leaks minishell");
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	char		*prompt;
@@ -56,7 +51,6 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init_env(&shell.env, env);
-	atexit(leaks);
 	while (1)
 	{
 		prompt = set_prompt("balkanshell$ ");
