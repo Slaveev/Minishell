@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:02:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 15:38:47 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/28 13:46:30 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	handle_echo(char **input)
 		if (new_line)
 			printf("\n");
 	}
+	g_sig.status = 0;
 }
 
 int	is_num(const char *s)

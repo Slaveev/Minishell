@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 15:27:20 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/28 13:56:12 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,9 @@ typedef struct s_shell_env
 	t_lexer		lexer;
 	t_cmd_node	*cmd;
 }				t_shell_env;
+
+void	handle_eof();
+void	signal_handler(int sig);
 
 char	*expander_env(char *arg, char **env);
 int		builtin_exec(char **input, t_env *env);

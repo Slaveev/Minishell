@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 15:40:43 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/28 13:58:00 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,19 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init_env(&shell.env, env);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	// atexit(leaks);
 	while (1)
 	{
 		prompt = set_prompt("balkanshell$ ");
 		input = readline(prompt);
 		free(prompt);
+		if (!input)
+			handle_eof();
 		if (!process_input(input))
 			continue ;
+		add_history(input);
 		init_lexer(&shell.lexer, input);
 		parser = init_parser(&shell.lexer);
 		parse_command(parser, &shell.cmd, &shell.env);
