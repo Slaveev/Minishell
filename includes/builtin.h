@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:33:08 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 15:07:58 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:26:14 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,7 @@
 
 void	handle_pwd(void);
 void	handle_echo(char **input);
+int		is_num(const char *s);
+void	exit_status(char **input);
 
 #endif

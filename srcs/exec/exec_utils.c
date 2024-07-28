@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:50:57 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:10:24 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:42:12 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,5 @@ void	cleanup(t_fds *fds, pid_t pid, int *cmd_status)
 	if (fds->pipe_fd[0] != -1)
 		close(fds->pipe_fd[1]);
 	waitpid(pid, cmd_status, 0);
+	g_sig.status = WEXITSTATUS(*cmd_status);
 }

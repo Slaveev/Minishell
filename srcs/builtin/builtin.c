@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:32:56 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 14:09:44 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:29:08 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ void	handle_export(char **input, t_env *env)
 		if (key && value)
 			set_env_var(env, key, value);
 	}
+	g_sig.status = 0;
 }
 
 void	handle_unset(char **input, t_env *env)
 {
 	if (input[1] != NULL)
 		unset_env_var(env, input[1]);
+	g_sig.status = 0;
 }
 
 void	handle_cd(char **input, t_env *env)
@@ -64,17 +66,18 @@ void	handle_cd(char **input, t_env *env)
 	}
 	else
 		change_dir_exec(env, input[1]);
+	g_sig.status = 0;
 }
 
-void	builtin_exec(char **input, t_env *env)
+int	builtin_exec(char **input, t_env *env)
 {
 	if (!strncmp(input[0], "env", 4))
-		print_env_vars(env);
-	else if (!strncmp(input[0], "exit", 4) && input[1] == NULL)
 	{
-		printf("exit\n");
-		exit(0);
+		print_env_vars(env);
+		g_sig.status = 0;
 	}
+	else if (!strncmp(input[0], "exit", 4))
+		exit_status(input);
 	else if (!strncmp(input[0], "echo", 4))
 		handle_echo(input);
 	else if (!strncmp(input[0], "pwd", 3) && input[1] == NULL)
@@ -85,6 +88,5 @@ void	builtin_exec(char **input, t_env *env)
 		handle_export(input, env);
 	else if (!strncmp(input[0], "unset", 5))
 		handle_unset(input, env);
-	else
-		printf("Command not found: %s\n", input[0]);
+	return (g_sig.status);
 }

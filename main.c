@@ -6,14 +6,14 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 15:06:29 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:40:43 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 #include "includes/parser.h"
 
-extern t_sig	g_sig;
+t_sig	g_sig = {.status = 0};
 
 char	*set_prompt(char *input)
 {
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init_env(&shell.env, env);
-	atexit(leaks);
+	// atexit(leaks);
 	while (1)
 	{
 		prompt = set_prompt("balkanshell$ ");

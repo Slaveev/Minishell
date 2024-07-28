@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:06:53 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:27:20 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ enum e_cmd_types{
 
 typedef struct s_sig
 {
-	int		sigint;
-	int		sigquit;
-	int		exstatus;
-	pid_t	pid;
-}				t_sig;
+	int	status;
+}		t_sig;
+
+extern t_sig	g_sig;
 
 typedef struct s_cmd
 {
@@ -103,7 +102,7 @@ typedef struct s_shell_env
 }				t_shell_env;
 
 char	*expander_env(char *arg, char **env);
-void	builtin_exec(char **input, t_env *env);
+int		builtin_exec(char **input, t_env *env);
 void	print_token(t_tok *token);
 void	ft_execute(t_cmd_node *cmd_list, t_env *env);
 void	free_cmd_list(t_cmd_node *cmd_list);

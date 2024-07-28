@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:41:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:31:23 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:37:43 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	execute_builtin_command(t_cmd *cmd, t_env *env, t_fds *fds)
 		saved_stdout = dup(STDOUT_FILENO);
 		redirect_and_close(fds->fd_output, STDOUT_FILENO);
 	}
-	builtin_exec(cmd->args, env);
+	g_sig.status = builtin_exec(cmd->args, env);
 	restore_fd(saved_stdin, STDIN_FILENO);
 	restore_fd(saved_stdout, STDOUT_FILENO);
 }
@@ -43,15 +43,20 @@ void	execute_builtin_command(t_cmd *cmd, t_env *env, t_fds *fds)
 void	execute_command(t_exec_context *context)
 {
 	char	*cmd_path;
+	int		flag;
 	char	**envp;
 
+	flag = 0;
 	cmd_path = NULL;
 	if (context->cmd->command[0] == '/')
 		cmd_path = context->cmd->command;
 	else
 		cmd_path = find_command_in_path(context->cmd->command, context->env);
 	if (!cmd_path)
+	{
 		ft_error("Command not found", 127);
+		flag = 1;
+	}
 	envp = env_to_char_array(context->env);
 	if (execve(cmd_path, context->cmd->args, envp) == -1)
 		ft_error("Command not executable", 126);
