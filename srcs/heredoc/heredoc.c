@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:49:40 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:11:03 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:42:03 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*prompt_and_read_line(char *delimiter)
 	}
 	if (strcmp(line, delimiter) == 0)
 	{
-		free(line);
+		// free(line);
 		return (NULL);
 	}
 	return (line);
@@ -70,7 +70,7 @@ void	handle_heredoc(t_cmd *cmd)
 		if (!line)
 			break ;
 		write_line_to_file(fd, line, strlen(line));
-		free(line);
+		// free(line);
 	}
 	close(fd);
 	cmd->fd_in = ft_strdup(tempfile);

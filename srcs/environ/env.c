@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:15:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 14:56:24 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:39:45 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,12 @@ void	init_env(t_env *env, char **environ)
 			value = splited[1];
 			set_env_var(env, key, value);
 			if (!strcmp(key, "PWD"))
+			{
+				free(env->curr_dir);
 				env->curr_dir = ft_strdup(value);
+			}
 		}
+		free_2d_array(splited);
 		i++;
 	}
 }

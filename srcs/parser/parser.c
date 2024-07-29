@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:14:07 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:56:43 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,21 @@ void	proccess_command(t_parser *parser, t_manager *cmd_mgmt, t_env *env)
 			handle_output_redirection(parser, *(cmd_mgmt->current_cmd),
 				cmd_mgmt->cmd_list);
 		else if (parser->current_token->type == CHAR_LESS)
+		{
+			printf("input\n");
 			handle_input_redirection(parser, *(cmd_mgmt->current_cmd),
 				cmd_mgmt->cmd_list);
+		}
 		else if (parser->current_token->type == WORD)
 			handle_command_and_args(parser, *(cmd_mgmt->current_cmd),
 				cmd_mgmt->cmd_list);
 		parser_advance(parser);
+		printf("seg\n");
 	}
 	envp = env_to_char_array(env);
 	ft_execute(*(cmd_mgmt->cmd_list), env);
-	free_char_array(envp);
+	free_2d_array(envp);
+	printf("freed\n");
 }
 
 void	parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)

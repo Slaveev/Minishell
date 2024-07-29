@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/28 13:56:12 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:44:11 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,10 @@ void	free_env(t_env *env);
 int		is_only_whitespace(const char *str);
 
 char	*search_command_in_path(char *path, char *command);
+void	free_2d_array(char **array);
+void	ftcleanup(t_shell_env *shell);
+
+void	exit_status(char **input);
+void free_env_vars(t_env *env);
 
 #endif

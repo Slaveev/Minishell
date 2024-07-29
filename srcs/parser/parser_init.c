@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:35:43 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:28:44 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:45:00 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ t_parser	*init_parser(t_lexer *lexer)
 
 void	parser_advance(t_parser *parser)
 {
+	if (parser->current_token != NULL)
+		destroy_token(parser->current_token);
 	parser->current_token = lexer_get_next_token(parser->lexer);
 }

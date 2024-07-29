@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:10:54 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:48:03 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@ void	destroy_token(t_tok *token)
 {
 	free(token->value);
 	free(token);
+}
+
+void	destroy_lexer(t_lexer *lexer)
+{
+	if (lexer->token)
+	{
+		destroy_token(lexer->token);
+		lexer->token = NULL;
+	}
 }
 
 void	init_lexer(t_lexer *lexer, char *input)

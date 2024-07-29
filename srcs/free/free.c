@@ -6,25 +6,41 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:12:03 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:34:24 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:49:43 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_cmd_list(t_cmd_node *cmd_list)
+void	free_2d_array(char **array)
 {
-	t_cmd_node	*tmp;
+	int	i;
 
-	while (cmd_list != NULL)
+	i = 0;
+	if (array)
 	{
-		tmp = cmd_list;
-		cmd_list = cmd_list->next;
-		free(tmp->cmd->command);
-		free(tmp->cmd->args);
-		free(tmp->cmd);
-		free(tmp);
+		while (array[i] != NULL)
+		{
+			free(array[i]);
+			i++;
+		}
+		free(array);
 	}
+}
+
+void free_cmd_list(t_cmd_node *cmd_list) {
+    t_cmd_node *tmp;
+
+    while (cmd_list != NULL) {
+        // free_2d_array(cmd_list->cmd->args); // Free the arguments of the command
+        if (cmd_list->cmd->command != NULL) {
+            free(cmd_list->cmd->command); // Free the command string if it's separately allocated
+        }
+        free(cmd_list->cmd); // Free the command structure itself
+        tmp = cmd_list;
+        cmd_list = cmd_list->next;
+        free(tmp); // Free the node
+    }
 }
 
 void	free_char_array(char **array)

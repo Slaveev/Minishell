@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:41:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:14:29 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:41:42 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	execute_command(t_exec_context *context)
 	envp = env_to_char_array(context->env);
 	if (execve(cmd_path, context->cmd->args, envp) == -1)
 		ft_error("Command not executable", 126);
-	free_char_array(envp);
+	// free_char_array(envp);
 }
 
 void	execute_external_command(t_exec_context *context)

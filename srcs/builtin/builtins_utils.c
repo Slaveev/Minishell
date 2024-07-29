@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
+/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:02:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/28 13:46:30 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:43:57 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,11 @@ int	is_num(const char *s)
 	return (1);
 }
 
+void	cleanup_shell(t_env *env)
+{
+	free_env(env);
+}
+
 void	exit_status(char **input)
 {
 	if (input[1] != NULL)
@@ -80,5 +85,6 @@ void	exit_status(char **input)
 		}
 	}
 	printf("exit\n");
+	// free_env_vars(env);
 	exit(g_sig.status);
 }

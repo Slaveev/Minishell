@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:43:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:11:14 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:52:06 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_cmd_node	*create_cmd_node(void)
 		node->cmd = calloc(1, sizeof(t_cmd));
 		if (!node->cmd)
 		{
-			free(node);
+			// free(node);
 			node = NULL;
 		}
 	}
@@ -73,12 +73,14 @@ void	handle_output_redirection(t_parser *parser, t_cmd *current_cmd,
 			free_cmd_list(*cmd_list);
 			return ;
 		}
+		free(parser->current_token->value);
 	}
 }
 
 void	handle_input_redirection(t_parser *parser, t_cmd *current_cmd,
 		t_cmd_node **cmd_list)
 {
+	printf("parser->current_token->type = %d\n", parser->current_token->type);
 	if (heredoc_check(parser, current_cmd))
 	{
 		parser_advance(parser);
@@ -97,5 +99,6 @@ void	handle_input_redirection(t_parser *parser, t_cmd *current_cmd,
 				return ;
 			}
 		}
+		printf("where\n");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/22 12:04:49 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:37:00 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,6 @@ t_tok	*handle_space(t_lexer *lexer);
 t_tok	*handle_less(t_lexer *lexer);
 t_tok	*handle_pipe_tok(t_lexer *lexer);
 t_tok	*handle_open_paren(t_lexer *lexer);
+void	destroy_lexer(t_lexer *lexer);
 
 #endif
