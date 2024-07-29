@@ -6,11 +6,12 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:12:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:27:43 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:11:42 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
+#include "../../libft/libft.h"
 
 int	get_token_type(char *value)
 {
@@ -65,7 +66,7 @@ t_tok	*lexer_identifier(t_lexer *lexer)
 	while (is_string_identify(lexer->cur_char)
 		|| lexer->cur_char == '.' || lexer->cur_char == '\'')
 		lexer_advance(lexer);
-	ident = strndup(lexer->input + start_pos, lexer->pos - start_pos);
+	ident = ft_strndup(lexer->input + start_pos, lexer->pos - start_pos);
 	token = create_token(ident, WORD);
 	return (token);
 }

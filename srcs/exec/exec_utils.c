@@ -6,11 +6,12 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:50:57 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/24 15:42:12 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:11:07 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../libft/libft.h"
 
 char	*find_command_in_path(char *command, t_env *env)
 {
@@ -32,7 +33,7 @@ char	*find_command_in_path(char *command, t_env *env)
 	}
 	if (path_env == NULL)
 		return (NULL);
-	path = strdup(path_env);
+	path = ft_strdup(path_env);
 	if (path == NULL)
 		ft_error("Failed to allocate memory", 1);
 	result = search_command_in_path(path, command);

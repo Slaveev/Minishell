@@ -6,11 +6,12 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 14:43:19 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:10:39 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:11:22 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../libft/libft.h"
 
 int	is_only_whitespace(const char *str)
 {
@@ -33,7 +34,7 @@ char	*search_command_in_path(char *path, char *command)
 	{
 		snprintf(full_path, sizeof(full_path), "%s/%s", token, command);
 		if (access(full_path, X_OK) == 0)
-			return (strdup(full_path));
+			return (ft_strdup(full_path));
 		token = strtok(NULL, ":");
 	}
 	return (NULL);

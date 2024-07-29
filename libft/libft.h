@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 20:03:08 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/04/03 18:19:23 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:12:41 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *src);
 size_t	ft_strlen(char const *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strndup(const char *src, size_t n);
 
 #endif

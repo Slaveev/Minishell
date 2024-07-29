@@ -6,16 +6,17 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/23 14:43:04 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:14:07 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
+#include "../../libft/libft.h"
 
 void	init_cmd_and_arg(t_parser *parser, t_cmd *current_cmd,
 		t_cmd_node **cmd_list)
 {
-	current_cmd->command = strdup(parser->current_token->value);
+	current_cmd->command = ft_strdup(parser->current_token->value);
 	if (current_cmd->command == NULL)
 	{
 		perror("Failed to duplicate command string");
@@ -49,7 +50,7 @@ void	add_together(t_parser *parser, t_cmd *current_cmd,
 		return ;
 	}
 	current_cmd->args = resulted_args;
-	current_cmd->args[args_len] = strdup(parser->current_token->value);
+	current_cmd->args[args_len] = ft_strdup(parser->current_token->value);
 	if (current_cmd->args[args_len] == NULL)
 	{
 		perror("Failed to duplicate argument string");
@@ -101,12 +102,10 @@ void	proccess_command(t_parser *parser, t_manager *cmd_mgmt, t_env *env)
 
 void	parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)
 {
-	int			cmd_flag;
 	t_cmd_node	*current_node;
 	t_cmd		*current_cmd;
 	t_manager	cmd_mgmt;
 
-	cmd_flag = 1;
 	current_node = NULL;
 	current_cmd = NULL;
 	cmd_mgmt.cmd_list = cmd_list;

@@ -6,7 +6,7 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:40:00 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/03/29 13:29:46 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:12:34 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,32 @@ char	*ft_strdup(const char *src)
 		*ptr = *src;
 		ptr++;
 		src++;
+	}
+	*ptr = '\0';
+	return (dub_ptr);
+}
+
+char	*ft_strndup(const char *src, size_t n)
+{
+	char	*dub_ptr;
+	char	*ptr;
+	size_t	src_size;
+	size_t	i;
+
+	src_size = ft_strlen(src);
+	if (n < src_size)
+		src_size = n;
+	ptr = (char *)malloc(sizeof(char) * (src_size + 1));
+	if (!ptr)
+		return (NULL);
+	dub_ptr = ptr;
+	i = 0;
+	while (i < src_size)
+	{
+		*ptr = *src;
+		ptr++;
+		src++;
+		i++;
 	}
 	*ptr = '\0';
 	return (dub_ptr);

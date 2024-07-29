@@ -6,12 +6,13 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:49:40 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 14:33:53 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:11:03 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../../includes/parser.h"
+#include "../../libft/libft.h"
 
 int	open_heredoc_file(char *tempfile)
 {
@@ -72,7 +73,7 @@ void	handle_heredoc(t_cmd *cmd)
 		free(line);
 	}
 	close(fd);
-	cmd->fd_in = strdup(tempfile);
+	cmd->fd_in = ft_strdup(tempfile);
 }
 
 bool	heredoc_check(t_parser *parser, t_cmd *cmd)

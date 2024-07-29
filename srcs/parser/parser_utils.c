@@ -6,11 +6,12 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:43:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/22 11:21:46 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:11:14 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
+#include "../../libft/libft.h"
 
 t_cmd_node	*create_cmd_node(void)
 {
@@ -65,7 +66,7 @@ void	handle_output_redirection(t_parser *parser, t_cmd *current_cmd,
 	parser_advance(parser);
 	if (parser->current_token->type == WORD)
 	{
-		current_cmd->fd_out = strdup(parser->current_token->value);
+		current_cmd->fd_out = ft_strdup(parser->current_token->value);
 		if (current_cmd->fd_out == NULL)
 		{
 			perror("Failed to duplicate output redirection path");
@@ -81,14 +82,14 @@ void	handle_input_redirection(t_parser *parser, t_cmd *current_cmd,
 	if (heredoc_check(parser, current_cmd))
 	{
 		parser_advance(parser);
-		current_cmd->fd_heredoc = strdup(parser->current_token->value);
+		current_cmd->fd_heredoc = ft_strdup(parser->current_token->value);
 	}
 	else
 	{
 		parser_advance(parser);
 		if (parser->current_token->type == WORD)
 		{
-			current_cmd->fd_in = strdup(parser->current_token->value);
+			current_cmd->fd_in = ft_strdup(parser->current_token->value);
 			if (current_cmd->fd_in == NULL)
 			{
 				perror("Failed to duplicate input redirection path");

@@ -6,11 +6,12 @@
 /*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/23 14:17:49 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:10:54 by dslaveev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
+#include "../../libft/libft.h"
 
 t_tok	*create_token(char *value, int type)
 {
@@ -19,7 +20,7 @@ t_tok	*create_token(char *value, int type)
 	token = malloc(sizeof(t_tok));
 	if (!token)
 		return (NULL);
-	token->value = strdup(value);
+	token->value = ft_strdup(value);
 	token->type = type;
 	return (token);
 }
