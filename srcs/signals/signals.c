@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:23:19 by jsamardz          #+#    #+#             */
-/*   Updated: 2024/07/28 13:56:16 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:03:18 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	signal_handler(int sig)
 	rl_redisplay();
 }
 
-void	handle_eof()
+void	handle_eof(void)
 {
 	printf("exit\n");
 	exit(0);

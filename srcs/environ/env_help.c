@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_help.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:36:52 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 15:55:33 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:30:17 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	fill_env_array(char **envp, t_env_var *vars)
 	i = 0;
 	while (vars != NULL)
 	{
-		len = strlen(vars->key) + strlen(vars->value) + 2;
+		len = ft_strlen(vars->key) + ft_strlen(vars->value) + 2;
 		envp[i] = malloc(len);
 		if (envp[i] == NULL)
 		{

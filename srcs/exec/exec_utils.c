@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:50:57 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:11:07 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:35:14 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*find_command_in_path(char *command, t_env *env)
 	current = env->vars;
 	while (current != NULL)
 	{
-		if (strncmp(current->key, "PATH", 4) == 0 && current->key[4] == '\0')
+		if (ft_strncmp(current->key, "PATH", 4) == 0 && current->key[4] == '\0')
 		{
 			path_env = current->value;
 			break ;
@@ -65,6 +65,7 @@ void	open_input_file(t_cmd *cmd, t_fds *fds)
 		if (fds->fd_input == -1)
 			ft_error("Failed to open input file", 1);
 	}
+	free(cmd->fd_in);
 }
 
 void	handle_pipe_creation(t_cmd *cmd, t_fds *fds)

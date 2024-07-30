@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 13:26:10 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 15:48:03 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 23:15:19 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,8 @@ t_tok	*create_token(char *value, int type)
 		return (NULL);
 	token->value = ft_strdup(value);
 	token->type = type;
+	token->flag = 0;
 	return (token);
-}
-
-void	destroy_token(t_tok *token)
-{
-	free(token->value);
-	free(token);
 }
 
 void	destroy_lexer(t_lexer *lexer)
@@ -47,7 +42,6 @@ void	init_lexer(t_lexer *lexer, char *input)
 	lexer->pos = 0;
 	lexer->cur_state = STATE_GENERAL;
 	lexer->token = NULL;
-	lexer->token_count = 0;
 }
 
 t_tok	*handle_more(t_lexer *lexer)

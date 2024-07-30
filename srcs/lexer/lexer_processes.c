@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_processes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 12:03:11 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/22 12:03:27 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:35:12 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

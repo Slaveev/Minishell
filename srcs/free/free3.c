@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   free3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/14 12:33:08 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 22:50:38 by jsamardz         ###   ########.fr       */
+/*   Created: 2024/07/30 12:57:02 by jsamardz          #+#    #+#             */
+/*   Updated: 2024/07/30 13:20:16 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "../../includes/minishell.h"
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
+void	help_eof(char *input)
+{
+	if (!input)
+		handle_eof();
+}
 
-void	handle_pwd(void);
-int		is_num(const char *s);
+void	destroy_token(t_tok *token)
+{
+	free(token->value);
+	free(token);
+}
 
-#endif
+void	ft_check(char **environ)
+{
+	if (environ == NULL)
+		return ;
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 14:44:11 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:53:22 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,16 @@ typedef struct s_shell_env
 	t_cmd_node	*cmd;
 }				t_shell_env;
 
-void	handle_eof();
+void	ft_check(char **environ);
+void	help_eof(char *input);
+void	free_lexer(t_lexer *lexer);
+void	free_token(t_tok *token);
+
+void	handle_eof(void);
 void	signal_handler(int sig);
 
 char	*expander_env(char *arg, char **env);
-int		builtin_exec(char **input, t_env *env);
 void	print_token(t_tok *token);
-void	ft_execute(t_cmd_node *cmd_list, t_env *env);
 void	free_cmd_list(t_cmd_node *cmd_list);
 int		is_builtin(char *command);
 void	ft_error(const char *msg, int status);
@@ -148,6 +151,6 @@ void	free_2d_array(char **array);
 void	ftcleanup(t_shell_env *shell);
 
 void	exit_status(char **input);
-void free_env_vars(t_env *env);
+void	free_env_vars(t_env *env);
 
 #endif

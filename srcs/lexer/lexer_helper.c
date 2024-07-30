@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:12:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:11:42 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:37:26 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 
 int	get_token_type(char *value)
 {
-	if (!strcmp(value, "<"))
+	if (!ft_strcmp(value, "<"))
 		return (CHAR_LESS);
-	else if (!strcmp(value, ">"))
+	else if (!ft_strcmp(value, ">"))
 		return (CHAR_MORE);
-	else if (!strcmp(value, ">>"))
+	else if (!ft_strcmp(value, ">>"))
 		return (CHAR_DOUBLE_MORE);
-	else if (!strcmp(value, "|"))
+	else if (!ft_strcmp(value, "|"))
 		return (CHAR_PIPE);
-	else if (!strcmp(value, " "))
+	else if (!ft_strcmp(value, " "))
 		return (CHAR_SPACE);
-	else if (!strcmp(value, "\'"))
+	else if (!ft_strcmp(value, "\'"))
 		return (CHAR_QUOTE);
-	else if (!strcmp(value, "\""))
+	else if (!ft_strcmp(value, "\""))
 		return (CHAR_DOUBLE_QUOTE);
-	else if (!strcmp(value, "\\"))
+	else if (!ft_strcmp(value, "\\"))
 		return (CHAR_BACKSLASH);
-	else if (!strcmp(value, "$"))
+	else if (!ft_strcmp(value, "$"))
 		return (CHAR_DOLLAR);
-	else if (!strcmp(value, "("))
+	else if (!ft_strcmp(value, "("))
 		return (CHAR_BRACKET_O);
-	else if (!strcmp(value, ")"))
+	else if (!ft_strcmp(value, ")"))
 		return (CHAR_BRACKET_C);
 	else
 		return (WORD);
@@ -44,7 +44,7 @@ int	get_token_type(char *value)
 void	lexer_advance(t_lexer *lexer)
 {
 	lexer->pos++;
-	if ((unsigned int)lexer->pos < strlen(lexer->input))
+	if ((unsigned int)lexer->pos < ft_strlen(lexer->input))
 		lexer->cur_char = lexer->input[lexer->pos];
 	else
 		lexer->cur_char = '\0';
@@ -68,6 +68,7 @@ t_tok	*lexer_identifier(t_lexer *lexer)
 		lexer_advance(lexer);
 	ident = ft_strndup(lexer->input + start_pos, lexer->pos - start_pos);
 	token = create_token(ident, WORD);
+	free(ident);
 	return (token);
 }
 

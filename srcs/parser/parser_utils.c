@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 15:43:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 15:52:06 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:40:07 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ t_cmd_node	*create_cmd_node(void)
 {
 	t_cmd_node	*node;
 
-	node = calloc(1, sizeof(t_cmd_node));
+	node = ft_calloc(1, sizeof(t_cmd_node));
 	if (node)
 	{
-		node->cmd = calloc(1, sizeof(t_cmd));
+		node->cmd = ft_calloc(1, sizeof(t_cmd));
 		if (!node->cmd)
 		{
-			// free(node);
+			free(node);
 			node = NULL;
 		}
 	}
@@ -66,6 +66,11 @@ void	handle_output_redirection(t_parser *parser, t_cmd *current_cmd,
 	parser_advance(parser);
 	if (parser->current_token->type == WORD)
 	{
+		if (current_cmd->fd_out != NULL)
+		{
+			free(current_cmd->fd_out);
+			current_cmd->fd_out = NULL;
+		}
 		current_cmd->fd_out = ft_strdup(parser->current_token->value);
 		if (current_cmd->fd_out == NULL)
 		{
@@ -73,14 +78,12 @@ void	handle_output_redirection(t_parser *parser, t_cmd *current_cmd,
 			free_cmd_list(*cmd_list);
 			return ;
 		}
-		free(parser->current_token->value);
 	}
 }
 
 void	handle_input_redirection(t_parser *parser, t_cmd *current_cmd,
 		t_cmd_node **cmd_list)
 {
-	printf("parser->current_token->type = %d\n", parser->current_token->type);
 	if (heredoc_check(parser, current_cmd))
 	{
 		parser_advance(parser);
@@ -88,7 +91,6 @@ void	handle_input_redirection(t_parser *parser, t_cmd *current_cmd,
 	}
 	else
 	{
-		parser_advance(parser);
 		if (parser->current_token->type == WORD)
 		{
 			current_cmd->fd_in = ft_strdup(parser->current_token->value);
@@ -98,7 +100,7 @@ void	handle_input_redirection(t_parser *parser, t_cmd *current_cmd,
 				free_cmd_list(*cmd_list);
 				return ;
 			}
+			free(current_cmd->fd_in);
 		}
-		printf("where\n");
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 15:56:43 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 23:12:03 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_cmd_and_arg(t_parser *parser, t_cmd *current_cmd,
 		free_cmd_list(*cmd_list);
 		return ;
 	}
-	current_cmd->args = calloc(2, sizeof(char *));
+	current_cmd->args = ft_calloc(2, sizeof(char *));
 	if (current_cmd->args == NULL)
 	{
 		perror("Failed to allocate memory for args");
@@ -77,32 +77,10 @@ void	proccess_command(t_parser *parser, t_manager *cmd_mgmt, t_env *env)
 	char	**envp;
 
 	cmd_flag = 1;
-	while (parser->current_token != NULL)
-	{
-		if (cmd_flag == 1)
-			initialize_cmd_node(parser, cmd_mgmt, &cmd_flag);
-		if (parser->current_token->type == CHAR_PIPE)
-			handle_pipe(*(cmd_mgmt->current_cmd), &cmd_flag);
-		else if (parser->current_token->type == CHAR_MORE
-			|| parser->current_token->type == CHAR_DOUBLE_MORE)
-			handle_output_redirection(parser, *(cmd_mgmt->current_cmd),
-				cmd_mgmt->cmd_list);
-		else if (parser->current_token->type == CHAR_LESS)
-		{
-			printf("input\n");
-			handle_input_redirection(parser, *(cmd_mgmt->current_cmd),
-				cmd_mgmt->cmd_list);
-		}
-		else if (parser->current_token->type == WORD)
-			handle_command_and_args(parser, *(cmd_mgmt->current_cmd),
-				cmd_mgmt->cmd_list);
-		parser_advance(parser);
-		printf("seg\n");
-	}
+	process_tokens(parser, cmd_mgmt, &cmd_flag);
 	envp = env_to_char_array(env);
 	ft_execute(*(cmd_mgmt->cmd_list), env);
 	free_2d_array(envp);
-	printf("freed\n");
 }
 
 void	parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env)

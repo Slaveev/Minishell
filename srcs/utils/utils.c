@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/23 14:46:30 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:39:31 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ int	is_builtin(char *command)
 {
 	if (command == NULL)
 		return (0);
-	if (strcmp(command, "cd") == 0
-		|| strcmp(command, "pwd") == 0
-		|| strcmp(command, "echo") == 0
-		|| strcmp(command, "exit") == 0
-		|| strcmp(command, "env") == 0
-		|| strcmp(command, "export") == 0
-		|| strcmp(command, "unset") == 0)
+	if (ft_strcmp(command, "cd") == 0
+		|| ft_strcmp(command, "pwd") == 0
+		|| ft_strcmp(command, "echo") == 0
+		|| ft_strcmp(command, "exit") == 0
+		|| ft_strcmp(command, "env") == 0
+		|| ft_strcmp(command, "export") == 0
+		|| ft_strcmp(command, "unset") == 0)
 	{
 		return (1);
 	}

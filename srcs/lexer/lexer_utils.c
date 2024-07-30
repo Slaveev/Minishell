@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:13:47 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 12:13:53 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 23:17:51 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*strip_quotes(char *str)
 {
 	int	i;
 
-	i = strlen(str);
+	i = ft_strlen(str);
 	if (str[0] == '"' && str[i - 1] == '"')
 	{
 		str[i - 1] = '\0';
@@ -51,6 +51,7 @@ t_tok	*lexer_dash(t_lexer *lexer)
 		lexer_advance(lexer);
 	ident = ft_strndup(lexer->input + start_pos, lexer->pos - start_pos);
 	token = create_token(ident, WORD);
+	free(ident);
 	return (token);
 }
 
@@ -65,6 +66,7 @@ t_tok	*lexer_token_name(t_lexer *lexer)
 		lexer_advance(lexer);
 	word = ft_strndup(lexer->input + start_pos, lexer->pos - start_pos);
 	token = create_token(word, WORD);
+	free(word);
 	return (token);
 }
 
@@ -74,15 +76,22 @@ t_tok	*process_token(t_lexer *lexer, char end_char, int token_type,
 	int		start_pos;
 	char	*ident;
 	t_tok	*token;
+	int		flag;
 
+	flag = 0;
 	lexer_advance(lexer);
 	start_pos = lexer->pos;
 	while (lexer->cur_char != end_char && lexer->cur_char != '\0')
 		lexer_advance(lexer);
 	ident = ft_strndup(lexer->input + start_pos, lexer->pos - start_pos);
 	if (quotes)
+	{
 		ident = strip_quotes(ident);
+		flag = 1;
+	}
 	token = create_token(ident, token_type);
+	token->flag = flag;
 	lexer_advance(lexer);
+	free(ident);
 	return (token);
 }

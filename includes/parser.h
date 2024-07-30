@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/21 15:56:54 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 23:12:51 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ typedef struct s_manager
 	t_cmd		**current_cmd;
 }				t_manager;
 
+void	handle_echo(char **input);
+int		builtin_exec(char **input, t_env *env);
+void	ft_execute(t_cmd_node *cmd_list, t_env *env);
+
+void		process_tokens(t_parser *parser, t_manager *cmd_mgmt,
+				int *cmd_flag);
+void		handle_command_and_args(t_parser *parser, t_cmd *current_cmd,
+				t_cmd_node **cmd_list);
 void		parse(t_parser *parser, t_cmd *cmd, char **env);
 void		parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env);
 void		parser_advance(t_parser *parser);

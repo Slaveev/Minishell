@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 13:15:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/29 15:39:45 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 14:30:52 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ void	init_env(t_env *env, char **environ)
 
 	env->vars = NULL;
 	env->curr_dir = NULL;
-	i = 0;
-	if (environ == NULL)
-		return ;
-	while (environ[i] != NULL)
+	i = -1;
+	ft_check(environ);
+	while (environ[++i] != NULL)
 	{
 		splited = ft_split(environ[i], '=');
 		if (splited[0] && splited[1])
@@ -33,14 +32,13 @@ void	init_env(t_env *env, char **environ)
 			key = splited[0];
 			value = splited[1];
 			set_env_var(env, key, value);
-			if (!strcmp(key, "PWD"))
+			if (!ft_strcmp(key, "PWD"))
 			{
 				free(env->curr_dir);
 				env->curr_dir = ft_strdup(value);
 			}
 		}
 		free_2d_array(splited);
-		i++;
 	}
 }
 
@@ -52,7 +50,7 @@ void	set_env_var(t_env *env, const char *key, const char *value)
 	current = env->vars;
 	while (current != NULL)
 	{
-		if (!strcmp(current->key, key))
+		if (!ft_strcmp(current->key, key))
 		{
 			free(current->value);
 			current->value = ft_strdup(value);
@@ -80,7 +78,7 @@ void	unset_env_var(t_env *env, const char *key)
 	current = &env->vars;
 	while (*current != NULL)
 	{
-		if (!strcmp((*current)->key, key))
+		if (!ft_strcmp((*current)->key, key))
 		{
 			delete_env = *current;
 			*current = (*current)->next;
@@ -100,7 +98,7 @@ char	*get_env_var(t_env *env, const char *key)
 	current = env->vars;
 	while (current != NULL)
 	{
-		if (!strcmp(current->key, key))
+		if (!ft_strcmp(current->key, key))
 			return (current->value);
 		current = current->next;
 	}
