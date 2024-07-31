@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:02:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 14:36:33 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:20:53 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	print_env_echo(char *arg, int flag)
 	char	*value;
 	char	*key;
 
+	key = NULL;
+	value = NULL;
 	if (flag == 1)
 	{
 		printf("%s", arg);
@@ -37,29 +39,16 @@ void	print_env_echo(char *arg, int flag)
 	}
 	if (arg[0] == '$' && arg[1] != '(')
 	{
-		key = getenv(arg + 1);
-		if (key)
-			printf("%s", key);
-		else
-			printf("%s", arg);
+		helper(arg, key);
 		return ;
 	}
 	if (!ft_strncmp(arg, "$(", 2) && arg[ft_strlen(arg) - 1] == ')')
 	{
 		value = malloc(strlen(arg) - 2);
-		if (!value)
-		{
-			perror("malloc");
-			exit(1);
-		}
-		strncpy(value, arg + 2, ft_strlen(arg) - 3);
+		ft_value(value);
+		ft_strncpy(value, arg + 2, ft_strlen(arg) - 3);
 		value[ft_strlen(arg) - 3] = '\0';
-		key = getenv(value);
-		if (key)
-			printf("%s", key);
-		else
-			printf("%s", arg);
-		free(value);
+		helper2(key, value);
 	}
 	else
 		printf("%s", arg);
@@ -105,11 +94,6 @@ int	is_num(const char *s)
 		s++;
 	}
 	return (1);
-}
-
-void	cleanup_shell(t_env *env)
-{
-	free_env(env);
 }
 
 void	exit_status(char **input)

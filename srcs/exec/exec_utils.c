@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:50:57 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 14:13:00 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:56:57 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ char	*find_command_in_path(char *command, t_env *env)
 	current = env->vars;
 	while (current != NULL)
 	{
-		if (ft_strncmp(current->key, "PATH", 4) == 0 && current->key[4] == '\0')
+		if (ft_strncmp(current->key, "PATH", 4) == 0
+			&& current->key[4] == '\0')
 		{
 			path_env = current->value;
 			break ;
@@ -74,25 +75,17 @@ void	handle_pipe_creation(t_cmd *cmd, t_fds *fds)
 		ft_error("Failed to create pipe", 1);
 }
 
-void cleanup(t_fds *fds, pid_t pid, int *cmd_status)
+void	cleanup(t_fds *fds, pid_t pid, int *cmd_status)
 {
-    if (fds->fd_input != -1) {
-        close(fds->fd_input);
-    }
-    if (fds->fd_output != -1) {
-        close(fds->fd_output);
-    }
-    if (fds->pipe_fd[0] != -1) {
-        close(fds->pipe_fd[0]);
-    }
-    if (fds->pipe_fd[1] != -1) {
-        close(fds->pipe_fd[1]);
-    }
-
-    if (waitpid(pid, cmd_status, 0) == -1) {
-        perror("waitpid");
-    }
-    
-    printf("waitpid completed\n");
-    g_sig.status = WEXITSTATUS(*cmd_status);
+	if (fds->fd_input != -1)
+		close(fds->fd_input);
+	if (fds->fd_output != -1)
+		close(fds->fd_output);
+	if (fds->pipe_fd[0] != -1)
+		close(fds->pipe_fd[0]);
+	if (fds->pipe_fd[1] != -1)
+		close(fds->pipe_fd[1]);
+	if (waitpid(pid, cmd_status, 0) == -1)
+		perror("waitpid");
+	g_sig.status = WEXITSTATUS(*cmd_status);
 }

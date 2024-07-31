@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:35:43 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 14:36:38 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:00:00 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	process_tokens(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag)
 				cmd_mgmt->cmd_list);
 		else if (parser->current_token->type == WORD)
 			flag = (handle_command_and_args(parser, *(cmd_mgmt->current_cmd),
-				cmd_mgmt->cmd_list));
+						cmd_mgmt->cmd_list));
 		parser_advance(parser);
 	}
 	return (flag);

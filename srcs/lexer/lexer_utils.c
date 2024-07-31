@@ -6,26 +6,12 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:13:47 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 13:58:25 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:02:26 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 #include "../../libft/libft.h"
-
-char *strip_single_quotes(char *str)
-{
-    int i;
-
-    i = ft_strlen(str);
-    if (str[0] == '\'' && str[i - 1] == '\'')
-    {
-        str[i - 1] = '\0';
-        return (str + 1);
-    }
-    return (str);
-}
-
 
 char	*strip_quotes(char *str)
 {

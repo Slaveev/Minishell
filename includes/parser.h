@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 10:50:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 14:34:08 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:54:37 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,13 @@ typedef struct s_manager
 	t_cmd		**current_cmd;
 }				t_manager;
 
-void	handle_echo(char **input, int flag);
-int		builtin_exec(char **input, t_env *env, int flag);
-void	ft_execute(t_cmd_node *cmd_list, t_env *env, int flag);
-
-// void		process_tokens(t_parser *parser, t_manager *cmd_mgmt,
-// 				int *cmd_flag);
+void		handle_echo(char **input, int flag);
+int			builtin_exec(char **input, t_env *env, int flag);
+void		ft_execute(t_cmd_node *cmd_list, t_env *env, int flag);
 int			handle_command_and_args(t_parser *parser, t_cmd *current_cmd,
 				t_cmd_node **cmd_list);
-int	process_tokens(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag);				
+int			process_tokens(t_parser *parser, t_manager *cmd_mgmt,
+				int *cmd_flag);
 void		parse(t_parser *parser, t_cmd *cmd, char **env);
 void		parse_command(t_parser *parser, t_cmd_node **cmd_list, t_env *env);
 void		parser_advance(t_parser *parser);
@@ -47,8 +45,6 @@ bool		heredoc_check(t_parser *parser, t_cmd *cmd);
 t_cmd_node	*create_cmd_node(void);
 void		initialize_cmd_node(t_parser *parser, t_manager *cmd_mgmt,
 				int *cmd_flag);
-// void		initialize_cmd_node(t_parser *parser, t_cmd_node **cmd_list,
-// 				t_cmd_node **current_node, t_cmd **current_cmd, int *cmd_flag);
 void		handle_pipe(t_cmd *current_cmd, int *cmd_flag);
 void		handle_output_redirection(t_parser *parser, t_cmd *current_cmd,
 				t_cmd_node **cmd_list);

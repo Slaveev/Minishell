@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 20:03:08 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 14:32:32 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:05:36 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int		ft_isalnum(int c);
 int		ft_atoi(const char *str);
 int		ft_strncmp(char *dest, const char *src, size_t n);
 int		ft_memcmp(const void *str1, const void *str2, size_t n);
+
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
 
 size_t	ft_strlen(char const *str);
 char	*ft_strcpy(char *dest, char *src);

@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 14:37:04 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:01:53 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	add_together(t_parser *parser, t_cmd *current_cmd,
 	char	**resulted_args;
 	int		flag;
 
-	flag = 0;
 	args_len = 0;
 	while (current_cmd->args[args_len] != NULL)
 		++args_len;
@@ -68,8 +67,9 @@ int	add_together(t_parser *parser, t_cmd *current_cmd,
 int	handle_command_and_args(t_parser *parser, t_cmd *current_cmd,
 		t_cmd_node **cmd_list)
 {
-	int	flag = 0;
+	int	flag;
 
+	flag = 0;
 	if (current_cmd->command == NULL)
 	{
 		init_cmd_and_arg(parser, current_cmd, cmd_list, flag);
@@ -90,7 +90,6 @@ void	proccess_command(t_parser *parser, t_manager *cmd_mgmt, t_env *env)
 	flag = 0;
 	cmd_flag = 1;
 	flag = process_tokens(parser, cmd_mgmt, &cmd_flag);
-
 	envp = env_to_char_array(env);
 	ft_execute(*(cmd_mgmt->cmd_list), env, flag);
 	free_2d_array(envp);

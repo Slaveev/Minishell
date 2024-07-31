@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 22:26:17 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:02:47 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_lexer
 	enum e_state	cur_state;
 }					t_lexer;
 
+char	*strip_single_quotes(char *str);
 char	*strip_quotes(char *str);
 void	init_lexer(t_lexer *lexer, char *input);
 t_tok	*create_token(char *value, int type);

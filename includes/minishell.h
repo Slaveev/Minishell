@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 22:53:22 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:21:03 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,10 @@ typedef struct s_shell_env
 	t_cmd_node	*cmd;
 }				t_shell_env;
 
+void	helper2(char *key, char *value);
+void	helper(char *arg, char *key);
+void	ft_value(char *value);
+
 void	ft_check(char **environ);
 void	help_eof(char *input);
 void	free_lexer(t_lexer *lexer);
@@ -108,6 +112,7 @@ void	free_token(t_tok *token);
 
 void	handle_eof(void);
 void	signal_handler(int sig);
+void	cleanup_shell(t_env *env);
 
 char	*expander_env(char *arg, char **env);
 void	print_token(t_tok *token);
