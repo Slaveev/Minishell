@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:41:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 23:12:39 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:13:47 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-void	execute_builtin_command(t_cmd *cmd, t_env *env, t_fds *fds)
+void	execute_builtin_command(t_cmd *cmd, t_env *env, t_fds *fds, int flag)
 {
 	int	saved_stdin;
 	int	saved_stdout;
@@ -36,7 +36,7 @@ void	execute_builtin_command(t_cmd *cmd, t_env *env, t_fds *fds)
 		saved_stdout = dup(STDOUT_FILENO);
 		redirect_and_close(fds->fd_output, STDOUT_FILENO);
 	}
-	g_sig.status = builtin_exec(cmd->args, env);
+	g_sig.status = builtin_exec(cmd->args, env, flag);
 	restore_fd(saved_stdin, STDIN_FILENO);
 	restore_fd(saved_stdout, STDOUT_FILENO);
 }
@@ -73,26 +73,32 @@ void	execute_external_command(t_exec_context *context)
 		cleanup(&context->fds, context->cmd->pid, &context->cmd->status);
 }
 
-void	ft_execute(t_cmd_node *cmd_list, t_env *env)
+void ft_execute(t_cmd_node *cmd_list, t_env *env, int flag)
 {
-	t_cmd_node		*current_node;
-	t_exec_context	context;
+    t_cmd_node *current_node;
+    t_exec_context context;
 
-	current_node = cmd_list;
-	while (current_node != NULL)
-	{
-		context.cmd = current_node->cmd;
-		context.env = env;
-		context.fds.fd_input = -1;
-		context.fds.fd_output = -1;
-		handle_heredoc(context.cmd);
-		open_input_file(context.cmd, &context.fds);
-		open_output_file(context.cmd, &context.fds);
-		handle_pipe_creation(context.cmd, &context.fds);
-		if (is_builtin(context.cmd->command))
-			execute_builtin_command(context.cmd, env, &context.fds);
-		else
-			execute_external_command(&context);
-		current_node = current_node->next;
-	}
+    current_node = cmd_list;
+    while (current_node != NULL)
+    {
+        context.cmd = current_node->cmd;
+        context.env = env;
+        context.fds.fd_input = -1;
+        context.fds.fd_output = -1;
+        context.fds.pipe_fd[0] = -1;
+        context.fds.pipe_fd[1] = -1;
+
+        handle_heredoc(context.cmd);
+        open_input_file(context.cmd, &context.fds);
+        open_output_file(context.cmd, &context.fds);
+        handle_pipe_creation(context.cmd, &context.fds);
+
+        if (is_builtin(context.cmd->command)) {
+            execute_builtin_command(context.cmd, env, &context.fds, flag);
+        } else {
+            execute_external_command(&context);
+        }
+
+        current_node = current_node->next;
+    }
 }

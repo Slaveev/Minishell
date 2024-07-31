@@ -6,12 +6,26 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 14:13:47 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 23:17:51 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:58:25 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 #include "../../libft/libft.h"
+
+char *strip_single_quotes(char *str)
+{
+    int i;
+
+    i = ft_strlen(str);
+    if (str[0] == '\'' && str[i - 1] == '\'')
+    {
+        str[i - 1] = '\0';
+        return (str + 1);
+    }
+    return (str);
+}
+
 
 char	*strip_quotes(char *str)
 {
@@ -84,11 +98,13 @@ t_tok	*process_token(t_lexer *lexer, char end_char, int token_type,
 	while (lexer->cur_char != end_char && lexer->cur_char != '\0')
 		lexer_advance(lexer);
 	ident = ft_strndup(lexer->input + start_pos, lexer->pos - start_pos);
-	if (quotes)
+	if (quotes == 1)
 	{
-		ident = strip_quotes(ident);
+		ident = strip_single_quotes(ident);
 		flag = 1;
 	}
+	else if (quotes == 2)
+		ident = strip_quotes(ident);
 	token = create_token(ident, token_type);
 	token->flag = flag;
 	lexer_advance(lexer);

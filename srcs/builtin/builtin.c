@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:32:56 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 23:12:55 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:54:58 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	handle_cd(char **input, t_env *env)
 	g_sig.status = 0;
 }
 
-int	builtin_exec(char **input, t_env *env)
+int	builtin_exec(char **input, t_env *env, int flag)
 {
 	if (!ft_strncmp(input[0], "env", 4))
 	{
@@ -80,7 +80,7 @@ int	builtin_exec(char **input, t_env *env)
 	else if (!ft_strncmp(input[0], "exit", 4))
 		exit_status(input);
 	else if (!ft_strncmp(input[0], "echo", 4))
-		handle_echo(input);
+		handle_echo(input, flag);
 	else if (!ft_strncmp(input[0], "pwd", 3) && input[1] == NULL)
 		handle_pwd();
 	else if (!ft_strncmp(input[0], "cd", 2))

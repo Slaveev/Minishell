@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:02:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 23:13:14 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:36:33 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,106 +25,47 @@ void	handle_pwd(void)
 	g_sig.status = 0;
 }
 
-// int	check_cases(char *arg)
-// {
-// 	if (strcmp(arg, "$HOME") == 0)
-// 	{
-// 		printf("HOME");
-// 		return (1);
-// 	}
-// 	return (0);
-// }
+void	print_env_echo(char *arg, int flag)
+{
+	char	*value;
+	char	*key;
 
-// void print_env_echo(char *arg) {
-//     char *value;
-//     char *key;
+	if (flag == 1)
+	{
+		printf("%s", arg);
+		return ;
+	}
+	if (arg[0] == '$' && arg[1] != '(')
+	{
+		key = getenv(arg + 1);
+		if (key)
+			printf("%s", key);
+		else
+			printf("%s", arg);
+		return ;
+	}
+	if (!ft_strncmp(arg, "$(", 2) && arg[ft_strlen(arg) - 1] == ')')
+	{
+		value = malloc(strlen(arg) - 2);
+		if (!value)
+		{
+			perror("malloc");
+			exit(1);
+		}
+		strncpy(value, arg + 2, ft_strlen(arg) - 3);
+		value[ft_strlen(arg) - 3] = '\0';
+		key = getenv(value);
+		if (key)
+			printf("%s", key);
+		else
+			printf("%s", arg);
+		free(value);
+	}
+	else
+		printf("%s", arg);
+}
 
-// 	printf("%c\n", key);
-//     if (arg[0] == '$' && arg[1] != '(') {
-//         key = getenv(arg + 1);
-//         if (key)
-//             printf("%s", key);
-//         else
-//             printf("%s", arg);
-//         return;
-//     }
-//     if (!strncmp(arg, "$(", 2) && arg[strlen(arg) - 1] == ')') {
-//         value = malloc(strlen(arg) - 2);
-//         if (!value) {
-//             perror("malloc");
-//             exit(1);
-//         }
-//         strncpy(value, arg + 2, strlen(arg) - 3);
-//         value[strlen(arg) - 3] = '\0';
-//         key = getenv(value);
-//         if (key)
-//             printf("%s", key);
-//         else
-//             printf("%s", arg);
-//         free(value);
-//     } else {
-//         printf("%s", arg);
-//     }
-// }
-
-// void	print_env_echo(char *arg)
-// {
-// 	char	*value;
-// 	char	*key;
-
-// 	if (check_cases(arg))
-// 		return ;
-// 	if (!strncmp(arg, "$(", 2) && arg[ft_strlen(arg) - 1] == ')')
-// 	{
-// 		value = malloc(ft_strlen(arg) - 2);
-// 		if (!value)
-// 		{
-// 			perror("malloc");
-// 			free(arg);
-// 			exit(1);
-// 		}
-// 		strncpy(value, arg + 2, ft_strlen(arg) - 3);
-// 		value[ft_strlen(arg) - 3] = '\0';
-// 		key = getenv(value);
-// 		if (key)
-// 			printf("%s", key);
-// 		else
-// 			printf("%s", arg);
-// 	}
-// 	else
-// 		printf("%s", arg);
-// }
-
-// void	handle_echo(char **input)
-// {
-// 	int	i;
-// 	int	new_line;
-
-// 	new_line = 1;
-// 	i = 1;
-// 	if (input[1] && !strcmp(input[1], "$?"))
-// 		printf("%d\n", g_sig.status);
-// 	else
-// 	{
-// 		while (input[i] && !strcmp(input[i], "-n"))
-// 		{
-// 			new_line = 0;
-// 			i++;
-// 		}
-// 		while (input[i])
-// 		{
-// 			print_env_echo(input[i]);
-// 			if (input[i + 1] && input[i][0] != '\0')
-// 				printf(" ");
-// 			i++;
-// 		}
-// 		if (new_line)
-// 			printf("\n");
-// 	}
-// 	g_sig.status = 0;
-// }
-
-void	handle_echo(char **input)
+void	handle_echo(char **input, int flag)
 {
 	int	i;
 	int	new_line;
@@ -142,7 +83,7 @@ void	handle_echo(char **input)
 		}
 		while (input[i])
 		{
-			printf("%s", input[i]);
+			print_env_echo(input[i], flag);
 			if (input[i + 1] && input[i][0] != '\0')
 				printf(" ");
 			i++;

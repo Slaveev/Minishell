@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:35:43 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 23:18:01 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:36:38 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ void	parser_advance(t_parser *parser)
 	parser->current_token = lexer_get_next_token(parser->lexer);
 }
 
-void	process_tokens(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag)
+int	process_tokens(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag)
 {
+	int	flag;
+
+	flag = 0;
 	while (parser->current_token != NULL)
 	{
 		if (*cmd_flag == 1)
@@ -47,8 +50,9 @@ void	process_tokens(t_parser *parser, t_manager *cmd_mgmt, int *cmd_flag)
 			handle_input_redirection(parser, *(cmd_mgmt->current_cmd),
 				cmd_mgmt->cmd_list);
 		else if (parser->current_token->type == WORD)
-			handle_command_and_args(parser, *(cmd_mgmt->current_cmd),
-				cmd_mgmt->cmd_list);
+			flag = (handle_command_and_args(parser, *(cmd_mgmt->current_cmd),
+				cmd_mgmt->cmd_list));
 		parser_advance(parser);
 	}
+	return (flag);
 }
