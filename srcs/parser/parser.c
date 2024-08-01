@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 11:07:17 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 15:01:53 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:06:59 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	init_cmd_and_arg(t_parser *parser, t_cmd *current_cmd,
 		t_cmd_node **cmd_list, int flag)
 {
+	(void)flag;
 	current_cmd->command = ft_strdup(parser->current_token->value);
 	if (current_cmd->command == NULL)
 	{

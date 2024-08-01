@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 20:03:08 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 15:05:36 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:02:54 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_list
 }	t_list;
 
 int		ft_strcmp(const char *str1, const char *str2);
-
+char	*ft_strcat(char *dest, const char *src);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_islower(int c);

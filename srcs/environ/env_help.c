@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 15:36:52 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 14:30:17 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:11:36 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	fill_env_array(char **envp, t_env_var *vars)
 			exit(1);
 		}
 		strcpy(envp[i], vars->key);
-		strcat(envp[i], "=");
-		strcat(envp[i], vars->value);
+		ft_strcat(envp[i], "=");
+		ft_strcat(envp[i], vars->value);
 		vars = vars->next;
 		i++;
 	}

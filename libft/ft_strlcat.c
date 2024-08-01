@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 10:16:34 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/03/09 16:29:43 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:02:42 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,22 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size)
 	}
 	dest[dest_len] = '\0';
 	return (total_len);
+}
+
+char	*ft_strcat(char *dest, const char *src)
+{
+	size_t		dest_len;
+	const char	*s;
+
+	dest_len = 0;
+	s = src;
+	while (dest[dest_len])
+		dest_len++;
+	while (*s)
+	{
+		dest[dest_len] = *s++;
+		dest_len++;
+	}
+	dest[dest_len] = '\0';
+	return (dest);
 }

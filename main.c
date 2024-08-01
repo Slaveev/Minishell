@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 10:59:54 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 23:19:04 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:57:03 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ char	*set_prompt(char *input)
 
 	if (input == NULL)
 		return (NULL);
-	prompt = malloc(strlen(input) + 1);
+	prompt = malloc(ft_strlen(input) + 1);
 	if (prompt == NULL)
 	{
 		printf("Error: malloc failed\n");
 		exit(1);
 	}
-	strcpy(prompt, input);
+	ft_strcpy(prompt, input);
 	return (prompt);
 }
 

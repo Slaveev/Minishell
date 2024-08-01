@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 15:02:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 15:20:53 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:55:49 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	print_env_echo(char *arg, int flag)
 	}
 	if (!ft_strncmp(arg, "$(", 2) && arg[ft_strlen(arg) - 1] == ')')
 	{
-		value = malloc(strlen(arg) - 2);
+		value = malloc(ft_strlen(arg) - 2);
 		ft_value(value);
 		ft_strncpy(value, arg + 2, ft_strlen(arg) - 3);
 		value[ft_strlen(arg) - 3] = '\0';
