@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 12:33:42 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/25 12:39:56 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/31 15:02:47 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # include <unistd.h>
 // # include "minishell.h"
 
-enum token_types{
+enum e_token_types{
+	CHAR_DOUBLE_MORE = 256,
 	CHAR_LESS = '<',
 	CHAR_MORE = '>',
 	CHAR_PIPE = '|',
@@ -44,7 +45,7 @@ enum token_types{
 	COMMAND
 };
 
-enum state {
+enum e_state {
 	STATE_GENERAL,
 	STATE_QUOTE,
 	STATE_DOUBLE_QUOTE,
@@ -55,35 +56,55 @@ typedef struct s_tok
 	char	*value;
 	int		type;
 	int		count;
+	int		flag;
 }			t_tok;
 
 typedef struct s_lexer
 {
-	t_tok		*token;
-	int			token_count;
-	char		*input;
-	char		cur_char;
-	int			pos;
-	enum state	cur_state;
-}				t_lexer;
+	t_tok			*token;
+	int				token_count;
+	char			*input;
+	char			cur_char;
+	int				pos;
+	enum e_state	cur_state;
+}					t_lexer;
 
+char	*strip_single_quotes(char *str);
 char	*strip_quotes(char *str);
 void	init_lexer(t_lexer *lexer, char *input);
 t_tok	*create_token(char *value, int type);
-int	is_string_identify(char c);
+int		is_string_identify(char c);
 void	lexer_advance(t_lexer *lexer);
 void	lexer_skip_whitespace(t_lexer *lexer);
 t_tok	*lexer_get_next_token(t_lexer *lexer);
 t_tok	*lexer_number(t_lexer *lexer);
 t_tok	*lexer_identifier(t_lexer *lexer);
-int	is_pipe(char c);
+int		is_pipe(char c);
 t_tok	*lexer_pipe(t_lexer *lexer);
-int	is_quote(char c);
+int		is_quote(char c);
 t_tok	*lexer_quote(t_lexer *lexer);
-int is_double_quote(char c);
+int		is_double_quote(char c);
 t_tok	*lexer_double_quote(t_lexer *lexer);
-int	is_redirection(char c);
+int		is_redirection(char c);
 t_tok	*lexer_redirection(t_lexer *lexer);
 void	destroy_token(t_tok *token);
+
+int		is_with_dash(char c, char next_c);
+t_tok	*lexer_dash(t_lexer *lexer);
+t_tok	*lexer_token_name(t_lexer *lexer);
+t_tok	*process_token(t_lexer *lexer, char end_char,
+			int token_type, int quotes);
+
+t_tok	*handle_quote(t_lexer *lexer);
+t_tok	*handle_double_quote(t_lexer *lexer);
+t_tok	*handle_identifier(t_lexer *lexer);
+t_tok	*handle_dash(t_lexer *lexer);
+t_tok	*handle_token_name(t_lexer *lexer);
+t_tok	*handle_char_more(t_lexer *lexer);
+t_tok	*handle_space(t_lexer *lexer);
+t_tok	*handle_less(t_lexer *lexer);
+t_tok	*handle_pipe_tok(t_lexer *lexer);
+t_tok	*handle_open_paren(t_lexer *lexer);
+void	destroy_lexer(t_lexer *lexer);
 
 #endif

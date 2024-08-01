@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/14 12:33:08 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/06/14 13:27:20 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/07/30 22:50:38 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@
 # include <unistd.h>
 
 void	handle_pwd(void);
-void	handle_cd(char **input);
-void	handle_echo(char **input);
-void	handle_env(char **env);
-void	builtin_exec(char **input, char **env);
+int		is_num(const char *s);
 
 #endif

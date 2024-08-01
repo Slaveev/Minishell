@@ -3,14 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+<<<<<<< HEAD:utils.c
 /*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
 /*   Updated: 2024/07/01 12:44:34 by jsamardz         ###   ########.fr       */
+=======
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
+/*   Updated: 2024/07/30 14:39:31 by jsamardz         ###   ########.fr       */
+>>>>>>> workbulgaria:srcs/utils/utils.c
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_close_fd(int *pfd)
 {
@@ -66,19 +73,17 @@ char	*get_cmd_path(char *cmd, char **env)
 
 int	is_builtin(char *command)
 {
-	char	*builtins[] = {"cd", "pwd", "echo", "exit", "env", "export", "unset"};
-	int		i;
-	int		num_builtins;
-
 	if (command == NULL)
 		return (0);
-	i = 0;
-	num_builtins = sizeof(builtins) / sizeof(char *);
-	while (i < num_builtins)
+	if (ft_strcmp(command, "cd") == 0
+		|| ft_strcmp(command, "pwd") == 0
+		|| ft_strcmp(command, "echo") == 0
+		|| ft_strcmp(command, "exit") == 0
+		|| ft_strcmp(command, "env") == 0
+		|| ft_strcmp(command, "export") == 0
+		|| ft_strcmp(command, "unset") == 0)
 	{
-		if (strcmp(command, builtins[i]) == 0)
-			return (1);
-		i++;
+		return (1);
 	}
 	return (0);
 }

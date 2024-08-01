@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dslaveev <dslaveev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 20:03:08 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/04/03 18:19:23 by dslaveev         ###   ########.fr       */
+/*   Updated: 2024/08/01 21:02:54 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+int		ft_strcmp(const char *str1, const char *str2);
+char	*ft_strcat(char *dest, const char *src);
 int		ft_isascii(int c);
 int		ft_isdigit(int c);
 int		ft_islower(int c);
@@ -42,6 +44,8 @@ int		ft_isalnum(int c);
 int		ft_atoi(const char *str);
 int		ft_strncmp(char *dest, const char *src, size_t n);
 int		ft_memcmp(const void *str1, const void *str2, size_t n);
+
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
 
 size_t	ft_strlen(char const *str);
 char	*ft_strcpy(char *dest, char *src);
@@ -86,5 +90,6 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *src);
 size_t	ft_strlen(char const *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strndup(const char *src, size_t n);
 
 #endif
