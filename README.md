@@ -3,7 +3,7 @@
 42 project, recoding our own little bash. A program capable of parsing a prompt and launching executables with arguments, along with a few built-in functions.
 
 <p align="center">
-  <img width="100" alt="Screen Shot 2024-08-01 at 9 51 06 PM" src="https://github.com/user-attachments/assets/962a564e-00e5-4a5a-9875-ea10cc436fc5">
+  <img width="500" alt="Screen Shot 2024-08-01 at 9 51 06 PM" src="https://github.com/user-attachments/assets/962a564e-00e5-4a5a-9875-ea10cc436fc5">
 </p>
 
 ## Final grade : 100/115
