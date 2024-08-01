@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 14:43:19 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 15:19:57 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:51:38 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ char	*search_command_in_path(char *path, char *command)
 	char	full_path[1024];
 	char	*token;
 
-	token = strtok(path, ":");
+	token = ft_strtok(path, ":");
 	while (token != NULL)
 	{
 		snprintf(full_path, sizeof(full_path), "%s/%s", token, command);
 		if (access(full_path, X_OK) == 0)
 			return (ft_strdup(full_path));
-		token = strtok(NULL, ":");
+		token = ft_strtok(NULL, ":");
 	}
 	return (NULL);
 }

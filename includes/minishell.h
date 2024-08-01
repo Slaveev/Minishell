@@ -6,7 +6,7 @@
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/17 13:14:25 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/31 15:21:03 by jsamardz         ###   ########.fr       */
+/*   Updated: 2024/08/01 20:50:08 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <signal.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
@@ -100,6 +101,8 @@ typedef struct s_shell_env
 	t_lexer		lexer;
 	t_cmd_node	*cmd;
 }				t_shell_env;
+
+char	*ft_strtok(char *str, const char *delim);
 
 void	helper2(char *key, char *value);
 void	helper(char *arg, char *key);
