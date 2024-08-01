@@ -3,17 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-<<<<<<< HEAD:utils.c
-/*   By: jsamardz <jsamardz@student.42heilnronn.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/01 12:44:34 by jsamardz         ###   ########.fr       */
-=======
 /*   By: jsamardz <jsamardz@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 12:42:14 by dslaveev          #+#    #+#             */
-/*   Updated: 2024/07/30 14:39:31 by jsamardz         ###   ########.fr       */
->>>>>>> workbulgaria:srcs/utils/utils.c
+/*   Updated: 2024/08/01 21:27:36 by jsamardz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
